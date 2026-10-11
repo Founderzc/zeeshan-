@@ -1,0 +1,7 @@
+{
+  "name": "Remix: Z Score - Zeeshan\u0027s Portfolio",
+  "description": "A thumbnail design portfolio for Zeeshan, showcasing work, case studies, and journey.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

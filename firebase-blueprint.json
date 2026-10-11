@@ -1,0 +1,114 @@
+{
+  "entities": {
+    "Thumbnail": {
+      "title": "Thumbnail",
+      "description": "YouTube thumbnail entry with metadata",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Engaging title for the thumbnail" },
+        "description": { "type": "string", "description": "Engaging description or concept summary for the thumbnail" },
+        "imageUrl": { "type": "string", "description": "Base64 or URL of the thumbnail image" },
+        "category": { 
+          "type": "string", 
+          "enum": ["Gaming", "Finance", "Tech", "Vlog", "Lifestyle", "Entertainment", "Education", "Music", "Travel", "Food", "Sports", "Portfolio"],
+          "description": "Content category" 
+        },
+        "stats": { "type": "string", "description": "Performance stats like views" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["title", "imageUrl", "createdAt"]
+    },
+    "HeroThumbnail": {
+      "title": "HeroThumbnail",
+      "description": "Dynamic thumbnails displayed on work section hero banner",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "description": "Base64 or URL of the image" },
+        "rotate": { "type": "number", "description": "Rotation angle in degrees" },
+        "x": { "type": "number", "description": "X coordinate percentage" },
+        "y": { "type": "number", "description": "Y coordinate percentage" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["url", "createdAt"]
+    },
+    "RandomPost": {
+      "title": "RandomPost",
+      "description": "Random creative cards and social posts showcase",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Card title" },
+        "desc": { "type": "string", "description": "Card description" },
+        "image": { "type": "string", "description": "Base64 or image URL" },
+        "rotate": { "type": "number", "description": "Rotation angle" },
+        "y": { "type": "number", "description": "Y coordinate offset" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["title", "image", "createdAt"]
+    },
+    "BTSContent": {
+      "title": "BTSContent",
+      "description": "Behind the scenes case study content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Project title" },
+        "videoTitle": { "type": "string", "description": "YouTube video title" },
+        "description": { "type": "string", "description": "Project description" },
+        "layoutIdea": { "type": "string", "description": "Initial concept" },
+        "designWorkflow": { "type": "string", "description": "Step-by-step process" },
+        "caseStudy": { "type": "string", "description": "Full case study in Markdown" },
+        "clientFeedback": { "type": "string", "description": "Testimonial" },
+        "whatsappChat": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string", "enum": ["client", "designer"] },
+              "text": { "type": "string" },
+              "time": { "type": "string" }
+            },
+            "required": ["role", "text", "time"]
+          }
+        },
+        "imageUrl": { "type": "string", "description": "Main display image" },
+        "beforeImages": { "type": "array", "items": { "type": "string" } },
+        "afterImages": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["title", "imageUrl", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email" },
+        "role": { "type": "string", "enum": ["admin", "client"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "thumbnails": {
+      "schema": "Thumbnail",
+      "description": "Collection of YouTube thumbnails"
+    },
+    "hero_thumbnails": {
+      "schema": "HeroThumbnail",
+      "description": "Collection of hero banner thumbnails"
+    },
+    "random_posts": {
+      "schema": "RandomPost",
+      "description": "Collection of random creative cards"
+    },
+    "behind_the_scenes": {
+      "schema": "BTSContent",
+      "description": "Collection of behind the scenes case studies"
+    },
+    "users": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    }
+  }
+}
