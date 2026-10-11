@@ -28,11 +28,15 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import regeneratedWorkPic from '../assets/images/regenerated_image_1791687574607.jpg';
 import { useAdmin } from '../hooks/useAdmin';
 import { ThumbnailGallery } from '../components/ThumbnailGallery';
 import { BehindTheScenes } from '../components/BehindTheScenes';
 import { PushPin } from '../components/PushPin';
 import { Skeleton } from '../components/ui/Skeleton';
+import { GlassmorphicReviewSection } from '../components/GlassmorphicReviewSection';
+import { TrustedCreatorsSection } from '../components/TrustedCreatorsSection';
+import { SpectralGlassHover } from '../components/SpectralGlassHover';
 import { 
   db, 
   collection, 
@@ -119,131 +123,9 @@ const compressImage = (base64Str: string, maxWidth = 600, maxHeight = 340, quali
   });
 };
 
-const Reviews = () => (
-  <section id="reviews" className="py-32 px-6 bg-[#F5F5F5] relative overflow-hidden">
-    {/* Background Grid */}
-    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-      style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
-    />
+const Reviews = () => <GlassmorphicReviewSection />;
 
-    <div className="max-w-7xl mx-auto relative z-10">
-      <div className="text-center mb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-black/5 shadow-sm mb-6"
-        >
-          <Star size={14} className="text-yellow-500 fill-yellow-500" />
-          <span className="text-[10px] font-bold uppercase tracking-widest">Client Success Stories</span>
-        </motion.div>
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">What Creators Say</h2>
-        <p className="text-zinc-500 max-w-2xl mx-auto text-sm">Real results from creators who scaled their channels with high-CTR thumbnails.</p>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-12">
-        {REVIEWS.map((review, i) => (
-          <motion.div
-            key={review.id}
-            initial={{ opacity: 0, scale: 0.9, rotate: Math.random() * 10 - 5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: Math.random() * 6 - 3 }}
-            whileHover={{ rotate: 0, zIndex: 20 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="relative group max-w-sm"
-          >
-            <PushPin color={['#FF6321', '#3B82F6', '#10B981', '#F59E0B'][i % 4]} />
-            <div className="bg-white p-8 shadow-xl border border-black/5 transform transition-all duration-500 group-hover:shadow-2xl">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full overflow-hidden bg-zinc-100 border-2 border-white shadow-sm">
-                  <img 
-                    src={review.image} 
-                    alt={review.name}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div>
-                  <h4 className="font-bold text-zinc-900 text-sm leading-tight">{review.name}</h4>
-                  <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider">{review.handle}</p>
-                </div>
-              </div>
-              <div className="relative">
-                <Quote className="absolute -top-2 -left-2 text-zinc-100 w-8 h-8 -z-10" />
-                <p className="text-zinc-600 text-sm leading-relaxed italic relative z-10">"{review.review}"</p>
-              </div>
-              <div className="mt-6 pt-6 border-t border-zinc-50 flex items-center justify-between">
-                <div className="flex gap-0.5">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} size={10} className="text-yellow-500 fill-yellow-500" />
-                  ))}
-                </div>
-                <span className={`text-[10px] font-bold uppercase tracking-widest ${review.color}`}>
-                  {review.result}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-const TrustedClients = () => (
-  <section className="py-32 px-6 bg-[#F5F5F5] relative overflow-hidden">
-    {/* Background Grid */}
-    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-      style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
-    />
-
-    <div className="max-w-7xl mx-auto relative z-10">
-      <div className="text-center mb-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-black/5 shadow-sm mb-6"
-        >
-          <Users size={14} className="text-blue-600" />
-          <span className="text-[10px] font-bold uppercase tracking-widest">Trusted By The Best</span>
-        </motion.div>
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Channel Partners</h2>
-        <p className="text-zinc-500 max-w-2xl mx-auto text-sm">Working with creators who are shaping the future of digital content.</p>
-      </div>
-
-      <div className="flex flex-wrap justify-center gap-12">
-        {CLIENTS.map((client, i) => (
-          <motion.div
-            key={client.id}
-            initial={{ opacity: 0, scale: 0.9, rotate: Math.random() * 10 - 5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: Math.random() * 6 - 3 }}
-            whileHover={{ rotate: 0, zIndex: 20 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="relative group"
-          >
-            <PushPin color={['#FF6321', '#3B82F6', '#10B981', '#F59E0B'][i % 4]} />
-            <div className="bg-white p-4 pb-8 shadow-xl border border-black/5 transform transition-all duration-500 group-hover:shadow-2xl">
-              <div className="w-48 h-48 overflow-hidden bg-zinc-100 mb-4">
-                <img 
-                  src={client.image} 
-                  alt={client.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="text-center">
-                <h3 className="font-bold text-zinc-900">{client.name}</h3>
-                <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider">{client.handle}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+const TrustedClients = () => <TrustedCreatorsSection clients={CLIENTS} />;
 
 const HeroSection = () => {
   const { isAdmin } = useAdmin();
@@ -1001,7 +883,9 @@ const WorkPage = () => {
         </Link>
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Visual/Graphic Designer</span>
-          <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-6 w-auto brightness-0" referrerPolicy="no-referrer" />
+          <SpectralGlassHover rounded="rounded-xl" className="px-2 py-1 bg-white/40" blurAmount={18} auraScale={1.12} tiltIntensity={4}>
+            <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-6 w-auto brightness-0" referrerPolicy="no-referrer" />
+          </SpectralGlassHover>
         </div>
       </nav>
 
@@ -1041,10 +925,9 @@ const WorkPage = () => {
             className="md:col-span-5 relative rounded-[2.5rem] bg-zinc-200 overflow-hidden min-h-[400px] group"
           >
             <img 
-              src="https://i.ibb.co/qXFY4XD/dposa-s.png" 
+              src={regeneratedWorkPic} 
               alt="Profile" 
               className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 right-8 text-white">

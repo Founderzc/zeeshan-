@@ -30,7 +30,16 @@ import {
   Palette
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import regeneratedAboutPic from '../assets/images/regenerated_image_1791687574607.jpg';
 import { useAdmin } from '../hooks/useAdmin';
+import { SpectralGlassHover } from '../components/SpectralGlassHover';
+import { toast } from 'sonner';
+import { 
+  getStoredWorkspaceImages, 
+  saveStoredWorkspaceImages, 
+  compressWorkspaceImage,
+  WorkspaceImageItem
+} from '../utils/workspaceStorage';
 
 // --- EDITABLE CONTENT START ---
 const PERSONAL_INFO = {
@@ -79,11 +88,7 @@ const PERSONAL_INFO = {
     { label: "Avg. CTR Increase", value: 15, suffix: "%" },
     { label: "Happy Clients", value: 200, suffix: "+" }
   ],
-  workspace: [
-    { url: "https://picsum.photos/seed/workspace1/800/600", caption: "Where the magic happens" },
-    { url: "https://picsum.photos/seed/workspace2/800/600", caption: "Late night sessions" },
-    { url: "https://picsum.photos/seed/workspace3/800/600", caption: "The setup" }
-  ]
+  workspace: []
 };
 // --- EDITABLE CONTENT END ---
 
@@ -182,8 +187,9 @@ const AboutPage = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { isAdmin } = useAdmin();
-  const [workspaceImages, setWorkspaceImages] = useState(PERSONAL_INFO.workspace);
+  const [workspaceImages, setWorkspaceImages] = useState<WorkspaceImageItem[]>(PERSONAL_INFO.workspace);
   const [isUploading, setIsUploading] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [showManualForm, setShowManualForm] = useState(false);
   const [manualCaption, setManualCaption] = useState('');
   const [manualImage, setManualImage] = useState<string | null>(null);
@@ -199,56 +205,84 @@ const AboutPage = () => {
   const y3 = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('zscore_local_workspace');
-    if (saved) {
-      setWorkspaceImages(JSON.parse(saved));
-    } else {
-      setWorkspaceImages(PERSONAL_INFO.workspace);
-    }
+    let isMounted = true;
+    getStoredWorkspaceImages(PERSONAL_INFO.workspace)
+      .then((images) => {
+        if (isMounted) {
+          setWorkspaceImages(images);
+        }
+      })
+      .catch((err) => {
+        console.warn('Error loading stored workspace images:', err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const handleManualImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleManualImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setManualImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsCompressing(true);
+      try {
+        const compressed = await compressWorkspaceImage(file, 1200, 900, 0.8);
+        setManualImage(compressed);
+      } catch (err) {
+        console.error('Image compression failed, using fallback reader:', err);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setManualImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } finally {
+        setIsCompressing(false);
+      }
     }
   };
 
   const handleManualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!manualCaption || !manualImage) return;
+    if (!manualCaption || !manualImage || isCompressing) return;
 
     setIsUploading(true);
     try {
-      const newImage = {
+      const newImage: WorkspaceImageItem = {
         id: Date.now().toString(),
         url: manualImage,
-        caption: manualCaption
+        caption: manualCaption.trim()
       };
 
       const updatedImages = [newImage, ...workspaceImages];
       setWorkspaceImages(updatedImages);
-      localStorage.setItem('zscore_local_workspace', JSON.stringify(updatedImages));
+      await saveStoredWorkspaceImages(updatedImages);
 
+      toast.success('Workspace image added successfully!');
       setManualCaption('');
       setManualImage(null);
+      if (manualFileInputRef.current) {
+        manualFileInputRef.current.value = '';
+      }
       setShowManualForm(false);
     } catch (err) {
       console.error('Error adding workspace image:', err);
+      toast.error('Failed to save workspace image.');
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleDeleteImage = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this image?')) {
-      const updatedImages = workspaceImages.filter((img: any) => img.id !== id);
-      setWorkspaceImages(updatedImages);
-      localStorage.setItem('zscore_local_workspace', JSON.stringify(updatedImages));
+  const handleDeleteImage = async (idOrUrl: string) => {
+    if (window.confirm('Are you sure you want to delete this workspace photo?')) {
+      try {
+        const updatedImages = workspaceImages.filter((img) => img.id !== idOrUrl && img.url !== idOrUrl);
+        setWorkspaceImages(updatedImages);
+        await saveStoredWorkspaceImages(updatedImages);
+        toast.success('Workspace image removed');
+      } catch (err) {
+        console.error('Error removing workspace image:', err);
+        toast.error('Failed to remove image');
+      }
     }
   };
 
@@ -274,7 +308,9 @@ const AboutPage = () => {
           <span className="font-bold uppercase tracking-[0.3em] text-[10px]">Return</span>
         </Link>
         <div className="flex items-center gap-8">
-          <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="h-8 w-auto brightness-0 opacity-80" />
+          <SpectralGlassHover rounded="rounded-xl" className="px-2.5 py-1 bg-white/40" blurAmount={18} auraScale={1.12} tiltIntensity={4}>
+            <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="h-7 w-auto brightness-0 opacity-80" />
+          </SpectralGlassHover>
         </div>
       </nav>
 
@@ -294,10 +330,9 @@ const AboutPage = () => {
                 <Tape className="-top-4 left-1/2 -translate-x-1/2" rotation={2} />
                 <div className="w-64 h-80 bg-zinc-200 overflow-hidden">
                   <img 
-                    src="https://i.ibb.co/qXFY4XD/dposa-s.png" 
+                    src={regeneratedAboutPic} 
                     alt="Profile" 
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
-                    referrerPolicy="no-referrer"
                   />
                 </div>
               </ScrapPaper>
@@ -513,15 +548,13 @@ const AboutPage = () => {
               <h2 className="text-2xl font-display font-bold uppercase tracking-widest">Workspace</h2>
             </div>
             
-            {isAdmin && (
-              <button 
-                onClick={() => setShowManualForm(!showManualForm)}
-                className={`flex items-center gap-2 px-4 py-2 border rounded-full transition-all text-[10px] font-bold uppercase tracking-widest ${showManualForm ? 'bg-black text-white border-black' : 'bg-white border-black/10 hover:bg-zinc-50'}`}
-              >
-                <Plus size={14} className={showManualForm ? 'rotate-45 transition-transform' : 'transition-transform'} />
-                {showManualForm ? 'Close' : 'Add Space'}
-              </button>
-            )}
+            <button 
+              onClick={() => setShowManualForm(!showManualForm)}
+              className={`flex items-center gap-2 px-4 py-2 border rounded-full transition-all text-[10px] font-bold uppercase tracking-widest ${showManualForm ? 'bg-black text-white border-black' : 'bg-white border-black/10 hover:bg-zinc-50'}`}
+            >
+              <Plus size={14} className={showManualForm ? 'rotate-45 transition-transform' : 'transition-transform'} />
+              {showManualForm ? 'Close' : 'Add Space'}
+            </button>
           </div>
 
           <AnimatePresence>
@@ -559,10 +592,15 @@ const AboutPage = () => {
                         onClick={() => manualFileInputRef.current?.click()}
                         className="flex-grow flex items-center justify-center gap-2 py-4 bg-zinc-50 border border-dashed border-black/10 rounded-2xl hover:bg-zinc-100 transition-all"
                       >
-                        {manualImage ? (
+                        {isCompressing ? (
+                          <div className="flex items-center gap-2">
+                            <Loader2 size={16} className="text-yellow-500 animate-spin" />
+                            <span className="text-xs font-bold text-yellow-600">Optimizing Image...</span>
+                          </div>
+                        ) : manualImage ? (
                           <div className="flex items-center gap-2">
                             <CheckCircle2 size={16} className="text-green-500" />
-                            <span className="text-xs font-bold">Ready to Upload</span>
+                            <span className="text-xs font-bold text-green-600">Image Ready</span>
                           </div>
                         ) : (
                           <div className="flex items-center gap-2">
@@ -575,45 +613,61 @@ const AboutPage = () => {
                   </div>
                   <button 
                     type="submit"
-                    disabled={!manualCaption || !manualImage || isUploading}
+                    disabled={!manualCaption || !manualImage || isUploading || isCompressing}
                     className="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-800 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : <><Zap size={14} /> Add to Workspace</>}
+                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : isCompressing ? <><Loader2 size={14} className="animate-spin" /> Preparing...</> : <><Zap size={14} /> Add to Workspace</>}
                   </button>
                 </form>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
-            {workspaceImages.map((img: any, i: number) => (
-              <div key={img.id || i} className="relative group">
-                <ScrapPaper rotation={i % 2 === 0 ? -3 : 3} className="p-2 bg-white" type="plain">
-                  <Tape className="-top-4 left-1/2 -translate-x-1/2" rotation={i % 2 === 0 ? 5 : -5} />
-                  <div className="bg-zinc-200 overflow-hidden rounded-sm relative">
-                    <img 
-                      src={img.url} 
-                      alt={`Workspace ${i + 1}`} 
-                      className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
-                      referrerPolicy="no-referrer"
-                    />
-                    {isAdmin && img.id && (
-                      <button 
-                        onClick={() => handleDeleteImage(img.id)}
-                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    )}
+          {workspaceImages.length === 0 ? (
+            <div className="py-12 px-6 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800 text-center max-w-md mx-auto">
+              <p className="text-zinc-500 text-sm font-medium mb-3">No workspace images added yet.</p>
+              <button
+                onClick={() => setShowManualForm(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-all"
+              >
+                <Plus size={14} /> Upload My Workspace
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+              {workspaceImages.map((img: any, i: number) => {
+                const imgKey = img.id || `ws-${i}`;
+                return (
+                  <div key={imgKey} className="relative group">
+                    <ScrapPaper rotation={i % 2 === 0 ? -3 : 3} className="p-2 bg-white" type="plain">
+                      <Tape className="-top-4 left-1/2 -translate-x-1/2" rotation={i % 2 === 0 ? 5 : -5} />
+                      <div className="bg-zinc-200 overflow-hidden rounded-sm relative">
+                        <img 
+                          src={img.url} 
+                          alt={`Workspace ${i + 1}`} 
+                          className="w-full h-auto grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
+                          referrerPolicy="no-referrer"
+                        />
+                        <button 
+                          onClick={() => handleDeleteImage(img.id || img.url)}
+                          title="Delete image"
+                          className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 shadow-lg cursor-pointer"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                      <div className="mt-4 text-center">
+                        <span className="font-handwriting text-lg text-zinc-500">{img.caption}</span>
+                      </div>
+                    </ScrapPaper>
                   </div>
-                  <div className="mt-4 text-center">
-                    <span className="font-handwriting text-lg text-zinc-500">{img.caption}</span>
-                  </div>
-                </ScrapPaper>
-              </div>
-            ))}
-          </div>
-          <HandwrittenAnnotation text="this is where I create" className="mt-8 text-2xl text-center w-full" arrow="up" />
+                );
+              })}
+            </div>
+          )}
+          {workspaceImages.length > 0 && (
+            <HandwrittenAnnotation text="this is where I create" className="mt-8 text-2xl text-center w-full" arrow="up" />
+          )}
         </motion.div>
 
         {/* CREATIVE PROCESS (NEW SECTION FOR LONG SCROLL) */}

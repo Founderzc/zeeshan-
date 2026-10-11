@@ -66,10 +66,17 @@ import { AnimatedSection, AnimatedText, AnimatedGlassBlock } from './components/
 import { AppleHelloIntro } from './components/AppleHelloIntro';
 import { InteractiveGlassCursor } from './components/InteractiveGlassCursor';
 import { GlassmorphicPageTransition } from './components/GlassmorphicPageTransition';
+import { GlassmorphicProcessSection } from './components/GlassmorphicProcessSection';
+import { GlassmorphicReviewSection } from './components/GlassmorphicReviewSection';
+import { TrustedCreatorsSection } from './components/TrustedCreatorsSection';
+import { SpectralGlassHover } from './components/SpectralGlassHover';
+import { IPhoneMockupProfile } from './components/IPhoneMockupProfile';
+import { GlassmorphicOnLoadPopup } from './components/GlassmorphicOnLoadPopup';
 import { useAdmin } from './hooks/useAdmin';
 import { Toaster, toast } from 'sonner';
 import { auth } from './firebase';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import zeeshanProfilePic from './assets/images/regenerated_image_1791712740532.jpg';
 
 // --- Typewriter Text Component ---
 const TypewriterText = ({ text, speed = 20 }: { text: string; speed?: number }) => {
@@ -142,22 +149,30 @@ const ScrapbookDecorations = () => {
 const ProfileImage = () => {
   return (
     <div className="relative w-full h-full">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: "anticipate" }}
-        className="w-full h-full"
+      <SpectralGlassHover
+        rounded="rounded-3xl"
+        className="w-full h-full p-2 bg-white/10 dark:bg-black/20"
+        containerClassName="w-full h-full"
+        blurAmount={30}
+        auraScale={1.06}
+        tiltIntensity={6}
       >
-        <motion.img 
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          src="https://i.ibb.co/qXFY4XD/dposa-s.png" 
-          alt="Zeeshan" 
-          className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 rounded-3xl"
-          referrerPolicy="no-referrer"
-          loading="lazy"
-        />
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "anticipate" }}
+          className="w-full h-full"
+        >
+          <motion.img 
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            src={zeeshanProfilePic} 
+            alt="Zeeshan" 
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 rounded-2xl"
+            loading="lazy"
+          />
+        </motion.div>
+      </SpectralGlassHover>
     </div>
   );
 };
@@ -180,7 +195,11 @@ const AIChat = () => {
   });
 
   useEffect(() => {
-    localStorage.setItem('z_score_chat_history', JSON.stringify(messages));
+    try {
+      localStorage.setItem('z_score_chat_history', JSON.stringify(messages.slice(-30)));
+    } catch (e) {
+      console.warn("Failed to save chat history to localStorage", e);
+    }
   }, [messages]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -828,7 +847,15 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-black/5">
       <Link to="/" className="flex items-center gap-2 cursor-pointer group">
-        <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-8 w-auto group-hover:scale-110 transition-transform duration-300 brightness-0" referrerPolicy="no-referrer" />
+        <SpectralGlassHover
+          rounded="rounded-2xl"
+          className="px-3 py-1.5 bg-white/40 dark:bg-black/20"
+          blurAmount={20}
+          auraScale={1.12}
+          tiltIntensity={5}
+        >
+          <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-7 w-auto group-hover:scale-105 transition-transform duration-300 brightness-0" referrerPolicy="no-referrer" />
+        </SpectralGlassHover>
       </Link>
       
       {/* Desktop Nav */}
@@ -1241,13 +1268,9 @@ const About = () => (
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="relative group h-full"
+        className="relative group h-full flex items-center justify-center"
       >
-        <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 opacity-10 blur-2xl group-hover:opacity-20 transition-opacity" />
-        <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-white border border-black/5 group-hover:border-black/10 transition-colors duration-500">
-          <ProfileImage />
-          <FogEffect />
-        </div>
+        <IPhoneMockupProfile className="w-full" />
       </motion.div>
     </div>
   </section>
@@ -1313,10 +1336,9 @@ const WhyMe = () => (
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/5 to-purple-600/5 blur-[100px] rounded-full" />
         <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-2xl z-10 hover:scale-105 transition-transform duration-500">
           <img 
-            src="https://i.ibb.co/qXFY4XD/dposa-s.png" 
+            src={zeeshanProfilePic} 
             alt="Zeeshan Profile" 
             className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-            referrerPolicy="no-referrer"
           />
         </div>
       </motion.div>
@@ -1393,76 +1415,7 @@ const Journey = () => (
   </section>
 );
 
-const Process = () => (
-  <AnimatedSection id="process" className="section-padding px-6 relative">
-    <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-24">
-        <div className="space-y-6">
-          <AnimatedText as="h3" className="text-neon-purple font-bold uppercase tracking-widest text-sm">The Workflow</AnimatedText>
-          <AnimatedText as="h2" className="text-5xl md:text-7xl font-display font-black leading-none text-[#1d1d1f]">
-            ENGINEERED <br /><span className="text-gradient">FOR CLICKS.</span>
-          </AnimatedText>
-        </div>
-        <div className="flex items-end">
-          <AnimatedText as="p" className="text-zinc-500 text-xl font-light leading-relaxed border-l-2 border-neon-purple pl-8">
-            A systematic approach to visual storytelling that prioritizes algorithm performance without sacrificing brand aesthetics.
-          </AnimatedText>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { 
-            step: "01", 
-            title: "Strategy", 
-            desc: "Analyzing your niche, competitors, and audience psychology to find the perfect hook.",
-            icon: Target
-          },
-          { 
-            step: "02", 
-            title: "Concept", 
-            desc: "Drafting high-impact visual layouts that focus on 'Pattern Interrupt' techniques.",
-            icon: Cpu
-          },
-          { 
-            step: "03", 
-            title: "Design", 
-            desc: "Executing the vision with premium color grading, lighting, and custom assets.",
-            icon: Sparkles
-          },
-          { 
-            step: "04", 
-            title: "Optimize", 
-            desc: "Final A/B testing readiness and algorithm-friendly export for maximum reach.",
-            icon: Zap
-          }
-        ].map((item, i) => (
-          <GlassCard
-            key={i}
-            liftOnHover={-8}
-            scaleOnHover={1.03}
-            tiltIntensity={6}
-            glareIntensity={0.4}
-            className="p-8 h-full flex flex-col justify-between group"
-          >
-            <div>
-              <div className="text-5xl font-display font-black text-black/10 group-hover:text-blue-600/30 mb-6 transition-colors">
-                {item.step}
-              </div>
-              <div className="w-12 h-12 bg-black/[0.04] dark:bg-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <item.icon size={20} className="text-zinc-900 group-hover:text-blue-600 transition-colors" />
-              </div>
-              <h4 className="text-xl font-bold mb-3 text-[#1d1d1f]">{item.title}</h4>
-              <p className="text-zinc-500 text-sm leading-relaxed font-normal">
-                {item.desc}
-              </p>
-            </div>
-          </GlassCard>
-        ))}
-      </div>
-    </div>
-  </AnimatedSection>
-);
+const Process = () => <GlassmorphicProcessSection />;
 
 const FAQ_DATA = [
   {
@@ -1537,236 +1490,9 @@ const FAQ = () => {
   );
 };
 
-const Reviews = () => (
-  <section id="reviews" className="py-32 px-6 bg-[#F5F5F5] relative overflow-hidden">
-    {/* Background Lines */}
-    <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
-      style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px)', backgroundSize: '100% 40px' }} 
-    />
+const Reviews = () => <GlassmorphicReviewSection />;
 
-    <div className="max-w-7xl mx-auto relative z-10">
-      <div className="text-center mb-32 space-y-4">
-        <h3 className="text-orange-600 font-mono text-xs uppercase tracking-[0.3em]">Client Testimonials</h3>
-        <h2 className="text-5xl md:text-7xl font-display font-bold text-[#1A1A1A] tracking-tighter">
-          HOW WE BUILD <br /><span className="text-orange-600 underline decoration-orange-600/20 underline-offset-8">TRUST.</span>
-        </h2>
-      </div>
-
-      <div className="relative min-h-[800px] md:min-h-[600px]">
-        {/* Connecting Dashed Line (Desktop) */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none hidden md:block" viewBox="0 0 1200 600" fill="none">
-          <motion.path
-            d="M150,150 Q400,50 600,300 T1050,450"
-            stroke="#000"
-            strokeWidth="1"
-            strokeDasharray="8 8"
-            initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 0.1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          />
-        </svg>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-0 relative">
-          {REVIEWS.map((review, i) => {
-            const rotations = [-3, 2, -2, 3];
-            const offsets = [
-              "md:translate-y-0 md:-translate-x-12",
-              "md:translate-y-24 md:translate-x-0",
-              "md:translate-y-48 md:translate-x-12",
-              "md:translate-y-12 md:-translate-x-8"
-            ];
-            const pinColors = ["#FF6321", "#3B82F6", "#8B5CF6", "#10B981"];
-            
-            return (
-              <motion.div
-                key={review.id}
-                initial={{ opacity: 0, scale: 0.8, rotate: 0, y: 50 }}
-                whileInView={{ 
-                  opacity: 1, 
-                  scale: 1, 
-                  rotate: rotations[i % rotations.length],
-                  y: [0, -15, 0]
-                }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  delay: i * 0.2, 
-                  duration: 0.8,
-                  type: "spring",
-                  stiffness: 100,
-                  y: {
-                    repeat: Infinity,
-                    duration: 4 + i,
-                    ease: "easeInOut",
-                    delay: i * 0.5
-                  }
-                }}
-                whileHover={{ 
-                  scale: 1.05, 
-                  rotate: 0, 
-                  zIndex: 30,
-                  y: -10,
-                  transition: { duration: 0.3 }
-                }}
-                data-cursor="card"
-                data-cursor-badge="REVIEW"
-                className={`relative p-8 backdrop-blur-xl bg-white/75 dark:bg-black/20 border border-white/80 dark:border-white/10 shadow-[0_14px_45px_rgba(0,0,0,0.06),inset_0_1.5px_1px_rgba(255,255,255,0.95)] rounded-3xl max-w-sm mx-auto ${offsets[i % offsets.length]} group hover:z-30 transition-all cursor-default overflow-hidden`}
-              >
-                <PushPin color={pinColors[i % pinColors.length]} />
-                
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <motion.span 
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: i * 0.2 + 0.5 }}
-                      className="font-mono text-2xl font-bold text-zinc-100 group-hover:text-zinc-200 transition-colors"
-                    >
-                      0{i + 1}
-                    </motion.span>
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, starI) => (
-                        <motion.div
-                          key={starI}
-                          initial={{ scale: 0 }}
-                          whileInView={{ scale: 1 }}
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ 
-                            scale: { delay: i * 0.2 + 0.6 + (starI * 0.1) },
-                            repeat: Infinity, 
-                            duration: 2, 
-                            delay: starI * 0.2 
-                          }}
-                        >
-                          <Star size={10} className="fill-orange-500 text-orange-500" />
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h4 className="text-xl font-bold text-zinc-900 group-hover:text-orange-600 transition-colors">{review.name}</h4>
-                    <div className="flex items-center justify-between">
-                      <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{review.handle}</p>
-                      <motion.span 
-                        whileHover={{ scale: 1.1 }}
-                        className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full"
-                      >
-                        {review.result}
-                      </motion.span>
-                    </div>
-                  </div>
-
-                  <p className="text-zinc-500 text-sm leading-relaxed font-medium group-hover:text-zinc-700 transition-colors">
-                    {review.text}
-                  </p>
-
-                  <div className="pt-4 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-zinc-50 group-hover:border-orange-200 transition-colors">
-                      <img 
-                        src={review.image} 
-                        alt={review.name} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Verified Client</p>
-                      <p className="text-[10px] font-bold text-zinc-900">Premium Partner</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
-const TrustedClients = () => (
-  <section className="py-32 bg-[#F5F5F5] relative overflow-hidden">
-    {/* Background Grid */}
-    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-      style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }} 
-    />
-
-    <div className="max-w-7xl mx-auto px-6 relative z-10">
-      <div className="text-center mb-24 space-y-4">
-        <h3 className="text-blue-600 font-mono text-xs uppercase tracking-[0.3em]">Premium Network</h3>
-        <h2 className="text-5xl md:text-7xl font-display font-bold text-[#1A1A1A] tracking-tighter">
-          TRUSTED BY <br /><span className="text-blue-600 underline decoration-blue-600/20 underline-offset-8">CREATORS.</span>
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-8 relative">
-        {CLIENTS.map((client, i) => {
-          const rotations = [-2, 3, -3, 2, -1];
-          const pinColors = ["#3B82F6", "#FF6321", "#8B5CF6", "#10B981", "#F59E0B"];
-          
-          return (
-            <motion.div 
-              key={client.id} 
-              initial={{ opacity: 0, scale: 0.7, y: 30 }}
-              whileInView={{ 
-                opacity: 1, 
-                scale: 1, 
-                rotate: rotations[i % rotations.length],
-                y: [0, -10, 0]
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ 
-                delay: i * 0.1, 
-                duration: 0.8,
-                type: "spring",
-                stiffness: 120,
-                y: {
-                  repeat: Infinity,
-                  duration: 3 + i * 0.5,
-                  ease: "easeInOut",
-                  delay: i * 0.3
-                }
-              }}
-              whileHover={{ 
-                scale: 1.15, 
-                rotate: 0, 
-                zIndex: 20,
-                y: -15,
-                transition: { duration: 0.2 }
-              }}
-              data-cursor="card"
-              data-cursor-badge="CREATOR"
-              className="relative p-6 backdrop-blur-xl bg-white/80 dark:bg-black/20 border border-white/80 dark:border-white/10 shadow-[0_12px_35px_rgba(0,0,0,0.05),inset_0_1.5px_1px_rgba(255,255,255,0.95)] rounded-2xl flex flex-col items-center text-center group transition-all duration-500 cursor-default"
-            >
-              <PushPin color={pinColors[i % pinColors.length]} />
-              
-              <div className="w-20 h-20 bg-zinc-50 rounded-full overflow-hidden mb-6 border-4 border-white shadow-inner group-hover:scale-110 transition-transform duration-500 ring-0 group-hover:ring-4 ring-blue-50">
-                <img 
-                  src={client.image} 
-                  alt={client.name} 
-                  className="w-full h-full object-cover" 
-                  referrerPolicy="no-referrer" 
-                  loading="lazy"
-                />
-              </div>
-              
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-zinc-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">{client.name}</h4>
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{client.handle}</p>
-              </div>
-
-              {/* Decorative tape effect */}
-              <div className="absolute -bottom-2 -right-2 w-12 h-4 bg-blue-600/10 rotate-12 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute -top-2 -left-2 w-8 h-8 bg-blue-600/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500" />
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-);
+const TrustedClients = () => <TrustedCreatorsSection clients={CLIENTS} />;
 
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState<'per-project' | 'monthly'>('per-project');
@@ -2418,6 +2144,7 @@ export default function App() {
         <div className="bg-white/0 min-h-screen selection:bg-neon-blue/20 selection:text-black scroll-smooth relative">
           <AIChat />
           <InteractiveGlassCursor />
+          <GlassmorphicOnLoadPopup />
           
           {/* Global Background Elements */}
           <div className="fixed inset-0 grid-bg opacity-10 pointer-events-none" />

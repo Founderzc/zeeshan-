@@ -86,28 +86,28 @@ export const ThumbnailShowcasePage: React.FC = () => {
               </div>
 
               {/* Glass Performance Metrics Badges */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 lg:w-auto">
-                <div className="p-4 rounded-2xl bg-white/80 border border-white/60 shadow-sm flex flex-col min-w-0">
+              <div className="grid grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto shrink-0">
+                <div className="p-3 sm:p-4 rounded-2xl backdrop-blur-xl bg-white/85 dark:bg-black/20 border border-white/80 dark:border-white/10 shadow-sm flex flex-col min-w-[100px] sm:min-w-[120px] overflow-hidden">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 truncate">Total Views</span>
-                  <span className="text-2xl font-black text-zinc-900 mt-0.5 whitespace-nowrap">3.3M+</span>
+                  <span className="text-xl sm:text-2xl font-black text-zinc-900 mt-0.5 whitespace-nowrap tabular-nums tracking-tight">3.3M+</span>
                   <span className="text-[10px] text-emerald-600 font-semibold mt-1 flex items-center gap-0.5 truncate">
-                    <TrendingUp size={11} /> Viral Reach
+                    <TrendingUp size={11} className="shrink-0" /> Viral Reach
                   </span>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white/80 border border-white/60 shadow-sm flex flex-col min-w-0">
+                <div className="p-3 sm:p-4 rounded-2xl backdrop-blur-xl bg-white/85 dark:bg-black/20 border border-white/80 dark:border-white/10 shadow-sm flex flex-col min-w-[100px] sm:min-w-[120px] overflow-hidden">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 truncate">Avg. CTR</span>
-                  <span className="text-2xl font-black text-blue-600 mt-0.5 whitespace-nowrap">10%</span>
+                  <span className="text-xl sm:text-2xl font-black text-blue-600 mt-0.5 whitespace-nowrap tabular-nums tracking-tight">10%</span>
                   <span className="text-[10px] text-blue-600 font-semibold mt-1 flex items-center gap-0.5 truncate">
-                    <Zap size={11} /> Optimized
+                    <Zap size={11} className="shrink-0" /> Optimized
                   </span>
                 </div>
 
-                <div className="col-span-2 sm:col-span-1 p-4 rounded-2xl bg-white/80 border border-white/60 shadow-sm flex flex-col min-w-0">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 truncate">Quality Standard</span>
-                  <span className="text-2xl font-black text-zinc-900 mt-0.5 whitespace-nowrap">98.98%</span>
-                  <span className="text-[10px] text-zinc-500 font-semibold mt-1 flex items-center gap-0.5 truncate">
-                    <Eye size={11} /> High Fidelity
+                <div className="p-3 sm:p-4 rounded-2xl backdrop-blur-xl bg-white/85 dark:bg-black/20 border border-white/80 dark:border-white/10 shadow-sm flex flex-col min-w-[100px] sm:min-w-[120px] overflow-hidden">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 truncate">Quality</span>
+                  <span className="text-xl sm:text-2xl font-black text-zinc-900 mt-0.5 whitespace-nowrap tabular-nums tracking-tight">98.98%</span>
+                  <span className="text-[10px] text-purple-600 font-semibold mt-1 flex items-center gap-0.5 truncate">
+                    <Eye size={11} className="shrink-0" /> Fidelity
                   </span>
                 </div>
               </div>

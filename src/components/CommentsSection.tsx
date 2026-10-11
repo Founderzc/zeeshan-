@@ -121,7 +121,11 @@ export const CommentsSection = () => {
 
       const updatedComments = [newComment, ...comments];
       setComments(updatedComments);
-      localStorage.setItem('zscore_local_comments', JSON.stringify(updatedComments));
+      try {
+        localStorage.setItem('zscore_local_comments', JSON.stringify(updatedComments.slice(0, 50)));
+      } catch (storageErr) {
+        console.warn('localStorage quota warning while saving comments:', storageErr);
+      }
 
       setName('');
       setComment('');
