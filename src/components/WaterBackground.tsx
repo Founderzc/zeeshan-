@@ -12,13 +12,14 @@ export const WaterBackground = () => {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
+    const isMobile = width < 768;
     canvas.width = width;
     canvas.height = height;
 
     const rippleSettings = {
       size: 20,
       speed: 0.1,
-      maxRipples: 10,
+      maxRipples: isMobile ? 3 : 10,
     };
 
     interface Ripple {
@@ -43,12 +44,13 @@ export const WaterBackground = () => {
     let leaves: Leaf[] = [];
     let animationFrameId: number;
 
-    // Initialize leaves
-    for (let i = 0; i < 15; i++) {
+    // Initialize leaves (lower count on mobile to prevent GPU crash)
+    const leafCount = isMobile ? 5 : 15;
+    for (let i = 0; i < leafCount; i++) {
       leaves.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: 15 + Math.random() * 30,
+        size: 15 + Math.random() * 25,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.01,
         vx: (Math.random() - 0.5) * 0.2,
@@ -199,7 +201,7 @@ export const WaterBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-0 hidden md:block"
       style={{ filter: 'blur(2px)' }}
     />
   );

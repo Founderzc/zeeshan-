@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { SpectralGlassHover } from './SpectralGlassHover';
+import enablersAvatar from '../assets/images/regenerated_image_1791817292482.png';
+import russianRockAvatar from '../assets/images/regenerated_image_1791817294093.png';
+import rowRhythmAvatar from '../assets/images/regenerated_image_1791817303664.png';
 
 export interface TrustedClient {
   id: number;
@@ -16,9 +19,9 @@ export const TRUSTED_CLIENTS_DATA: TrustedClient[] = [
   { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600" },
   { id: 3, name: "Rob Lipsett", handle: "491K subscribers", image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600" },
   { id: 4, name: "Kristen & Siya", handle: "329K subscribers", image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", image: "https://image2url.com/r2/default/images/1774670864556-c1f9664f-9c57-4938-9b23-2eaa0371cdf4.png", color: "text-blue-700" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: "https://image2url.com/r2/default/images/1774670662268-7fe3deea-41b2-4c6f-af8c-454ec4daffa6.png", color: "text-red-600" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: "https://image2url.com/r2/default/images/1774860421994-990bce61-ed25-44f2-9291-004db964e791.png", color: "text-zinc-600" },
+  { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
+  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
+  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
 ];
 
 export const TrustedCreatorsSection: React.FC<{

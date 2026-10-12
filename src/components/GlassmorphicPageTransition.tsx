@@ -104,7 +104,7 @@ export const GlassmorphicPageTransition: React.FC<GlassmorphicPageTransitionProp
                 damping: 25,
                 stiffness: 120,
               }}
-              className="relative z-10 px-6 py-3.5 rounded-full bg-white/85 border border-white/95 shadow-[0_20px_60px_rgba(0,0,0,0.09),inset_0_1.5px_2px_rgba(255,255,255,1)] flex items-center gap-3.5 backdrop-blur-3xl"
+              className="relative z-10 px-6 py-3.5 rounded-full bg-white/95 md:bg-white/85 border border-white/95 shadow-[0_20px_60px_rgba(0,0,0,0.09),inset_0_1.5px_2px_rgba(255,255,255,1)] flex items-center gap-3.5 backdrop-blur-none md:backdrop-blur-3xl transform-gpu will-change-[transform,opacity]"
             >
               <div className="w-8 h-8 rounded-full bg-black/[0.04] flex items-center justify-center shadow-inner">
                 {pageBadge.icon}

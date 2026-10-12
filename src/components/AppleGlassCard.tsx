@@ -104,22 +104,22 @@ export const AppleGlassCard: React.FC<AppleGlassCardProps> = ({
     glareY.set(50);
   };
 
-  // Blur class mapping
+  // Blur class mapping - disabled on mobile, active on desktop
   const blurClasses = {
-    md: 'backdrop-blur-md',
-    lg: 'backdrop-blur-lg',
-    xl: 'backdrop-blur-xl',
-    '2xl': 'backdrop-blur-2xl',
+    md: 'backdrop-blur-none md:backdrop-blur-md',
+    lg: 'backdrop-blur-none md:backdrop-blur-lg',
+    xl: 'backdrop-blur-none md:backdrop-blur-xl',
+    '2xl': 'backdrop-blur-none md:backdrop-blur-2xl',
   }[blurStrength];
 
-  // Variant styling for Apple frosted glass
+  // Variant styling for Apple frosted glass: matte on mobile, translucent on desktop
   const variantStyles = {
     light:
-      'bg-white/75 text-zinc-900 border-white/80 shadow-[0_10px_35px_-5px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.03),inset_0_1.5px_1px_rgba(255,255,255,0.9)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/75 md:dark:bg-black/30 text-zinc-900 border-white/80 dark:border-white/10 shadow-[0_10px_35px_-5px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.03),inset_0_1.5px_1px_rgba(255,255,255,0.9)]',
     subtle:
-      'bg-white/60 text-zinc-900 border-white/60 shadow-[0_8px_25px_-4px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.7)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/60 md:dark:bg-black/20 text-zinc-900 border-white/60 dark:border-white/10 shadow-[0_8px_25px_-4px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.7)]',
     dark:
-      'bg-zinc-950/70 text-white border-white/15 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)]',
+      'bg-zinc-950 text-white md:bg-zinc-950/70 border-white/15 shadow-[0_12px_40px_-10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)]',
   }[variant];
 
   return (
@@ -134,7 +134,7 @@ export const AppleGlassCard: React.FC<AppleGlassCardProps> = ({
         rotateX: enableTilt ? rotateX : 0,
         rotateY: enableTilt ? rotateY : 0,
         transformStyle: 'preserve-3d',
-        willChange: 'transform',
+        willChange: 'transform, opacity',
       }}
       animate={{
         scale: isHovered ? scaleOnHover : 1,
@@ -146,7 +146,7 @@ export const AppleGlassCard: React.FC<AppleGlassCardProps> = ({
         damping: 24,
         mass: 0.7,
       }}
-      className={`relative rounded-[28px] border overflow-hidden transition-colors ${blurClasses} ${variantStyles} ${className}`}
+      className={`relative rounded-[28px] border overflow-hidden transition-colors transform-gpu will-change-[transform,opacity] ${blurClasses} ${variantStyles} ${className}`}
       {...(rest as any)}
     >
       {/* Precision Apple Glass Specular Glare Overlay */}

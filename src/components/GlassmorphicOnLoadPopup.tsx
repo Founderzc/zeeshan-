@@ -238,11 +238,17 @@ export const GlassmorphicOnLoadPopup: React.FC<GlassmorphicOnLoadPopupProps> = (
   const [socialIndex, setSocialIndex] = useState(0);
 
   useEffect(() => {
+    // Disable popup completely on mobile devices (< 768px)
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return;
+    }
+
     const hasSeen = sessionStorage.getItem(storageKey);
     if (hasSeen) return;
 
     // Trigger notification popup exactly 10 seconds (10000ms) after user opens the website
     const timer = setTimeout(() => {
+      if (typeof window !== 'undefined' && window.innerWidth < 768) return;
       const alreadySeen = sessionStorage.getItem(storageKey);
       if (!alreadySeen) {
         setIsVisible(true);
@@ -255,12 +261,20 @@ export const GlassmorphicOnLoadPopup: React.FC<GlassmorphicOnLoadPopupProps> = (
       }
     };
 
+    const handleResize = () => {
+      if (window.innerWidth < 768 && isVisible) {
+        setIsVisible(false);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
     return () => {
       clearTimeout(timer);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [storageKey, delayMs]);
+  }, [storageKey, delayMs, isVisible]);
 
   // 20-second elegant fade loop for social handles
   useEffect(() => {
@@ -304,19 +318,19 @@ export const GlassmorphicOnLoadPopup: React.FC<GlassmorphicOnLoadPopupProps> = (
     <AnimatePresence>
       {isVisible && (
         <div 
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6"
+          className="hidden md:flex fixed inset-0 z-[120] items-center justify-center p-4 sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-label="Notification - Z-Score Studio"
         >
-          {/* Subtle iOS backdrop blur */}
+          {/* Subtle iOS backdrop blur - lightweight on mobile */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/60 md:bg-black/30 md:backdrop-blur-sm"
           />
 
           {/* Ultra-Clean Single iOS Frosted Glass Notification Card */}
@@ -332,7 +346,7 @@ export const GlassmorphicOnLoadPopup: React.FC<GlassmorphicOnLoadPopupProps> = (
             }}
             onMouseEnter={() => setIsCardHovered(true)}
             onMouseLeave={() => setIsCardHovered(false)}
-            className="relative w-full max-w-[390px] z-10 rounded-[22px] p-5 sm:p-6 backdrop-blur-3xl bg-white/85 dark:bg-black/40 border border-white/20 dark:border-white/10 shadow-2xl text-zinc-900 dark:text-zinc-100 select-none overflow-hidden"
+            className="relative w-full max-w-[390px] z-10 rounded-[22px] p-5 sm:p-6 bg-white/95 dark:bg-zinc-900/95 md:bg-white/85 md:dark:bg-black/40 md:backdrop-blur-3xl border border-white/40 dark:border-white/10 shadow-2xl text-zinc-900 dark:text-zinc-100 select-none overflow-hidden transform-gpu will-change-[transform,opacity]"
           >
             {/* Subtle multi-hue ambient glare behind glass */}
             <div className="absolute -top-12 -right-12 w-36 h-36 bg-purple-500/10 dark:bg-purple-500/15 rounded-full blur-2xl pointer-events-none" />

@@ -202,7 +202,7 @@ export const SpectralGlassHover: React.FC<SpectralGlassHoverProps> = ({
           damping: 20,
           mass: 0.5,
         }}
-        className={`relative z-20 w-full h-full backdrop-blur-xl bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] ${rounded} overflow-hidden transition-colors ${className}`}
+        className={`relative z-20 w-full h-full backdrop-blur-none md:backdrop-blur-xl bg-white/95 dark:bg-black/95 md:bg-white/5 md:dark:bg-black/20 border border-black/5 md:border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] transform-gpu will-change-[transform,opacity] ${rounded} overflow-hidden transition-colors ${className}`}
       >
         {/* Inner Specular Glare Reflection (following cursor) */}
         {enableGlare && (

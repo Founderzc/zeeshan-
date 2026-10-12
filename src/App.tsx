@@ -70,13 +70,15 @@ import { GlassmorphicProcessSection } from './components/GlassmorphicProcessSect
 import { GlassmorphicReviewSection } from './components/GlassmorphicReviewSection';
 import { TrustedCreatorsSection } from './components/TrustedCreatorsSection';
 import { SpectralGlassHover } from './components/SpectralGlassHover';
-import { IPhoneMockupProfile } from './components/IPhoneMockupProfile';
 import { GlassmorphicOnLoadPopup } from './components/GlassmorphicOnLoadPopup';
 import { useAdmin } from './hooks/useAdmin';
 import { Toaster, toast } from 'sonner';
 import { auth } from './firebase';
 import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import zeeshanProfilePic from './assets/images/regenerated_image_1791712740532.jpg';
+import enablersAvatar from './assets/images/regenerated_image_1791817292482.png';
+import russianRockAvatar from './assets/images/regenerated_image_1791817294093.png';
+import rowRhythmAvatar from './assets/images/regenerated_image_1791817303664.png';
 
 // --- Typewriter Text Component ---
 const TypewriterText = ({ text, speed = 20 }: { text: string; speed?: number }) => {
@@ -683,9 +685,9 @@ const REVIEWS: Review[] = [
   { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600", text: "The attention to detail and psychological triggers Zeeshan uses are unmatched. Highly recommended for any serious creator.", result: "400K+ Views" },
   { id: 3, name: "Rob Lipsett", handle: "491K subscribers", image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600", text: "Fast, reliable, and incredibly creative. Zeeshan understands the fitness niche perfectly.", result: "Viral Hit" },
   { id: 4, name: "Kristen & Siya", handle: "329K subscribers", image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600", text: "Our travel vlogs finally have the visual hooks they deserve. Zeeshan is a master of his craft.", result: "15% Growth" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", image: "https://image2url.com/r2/default/images/1774670864556-c1f9664f-9c57-4938-9b23-2eaa0371cdf4.png", color: "text-blue-700", text: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", result: "592K+ Impact" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: "https://image2url.com/r2/default/images/1774670662268-7fe3deea-41b2-4c6f-af8c-454ec4daffa6.png", color: "text-red-600", text: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", result: "690K+ Reach" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: "https://image2url.com/r2/default/images/1774860421994-990bce61-ed25-44f2-9291-004db964e791.png", color: "text-zinc-600", text: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", result: "35K+ Subs" },
+  { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700", text: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", result: "592K+ Impact" },
+  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600", text: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", result: "690K+ Reach" },
+  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600", text: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", result: "35K+ Subs" },
 ];
 
 const CLIENTS: Client[] = [
@@ -693,9 +695,9 @@ const CLIENTS: Client[] = [
   { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600" },
   { id: 3, name: "Rob Lipsett", handle: "491K subscribers", image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600" },
   { id: 4, name: "Kristen & Siya", handle: "329K subscribers", image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", image: "https://image2url.com/r2/default/images/1774670864556-c1f9664f-9c57-4938-9b23-2eaa0371cdf4.png", color: "text-blue-700" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: "https://image2url.com/r2/default/images/1774670662268-7fe3deea-41b2-4c6f-af8c-454ec4daffa6.png", color: "text-red-600" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: "https://image2url.com/r2/default/images/1774860421994-990bce61-ed25-44f2-9291-004db964e791.png", color: "text-zinc-600" },
+  { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
+  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
+  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
 ];
 
 const PRICING: PricingPlan[] = [
@@ -845,7 +847,7 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center bg-white/80 backdrop-blur-xl border-b border-black/5">
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 md:py-6 flex justify-between items-center bg-white/95 md:bg-white/80 backdrop-blur-none md:backdrop-blur-xl border-b border-black/5 transform-gpu">
       <Link to="/" className="flex items-center gap-2 cursor-pointer group">
         <SpectralGlassHover
           rounded="rounded-2xl"
@@ -934,12 +936,32 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
           Let's Talk
         </a>
         
-        {/* Mobile Menu Toggle */}
+        {/* Custom High-Aesthetic 3-Line Mobile Menu Toggle */}
         <button 
-          className="md:hidden p-2 text-zinc-500 hover:text-black"
+          type="button"
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMenuOpen}
+          className="md:hidden relative w-11 h-11 rounded-2xl bg-black/[0.04] active:bg-black/10 border border-black/10 flex flex-col items-center justify-center gap-[5px] transition-all duration-300 shadow-sm active:scale-95 group overflow-hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {/* Line 1 - Top Bar */}
+          <motion.span
+            animate={isMenuOpen ? { rotate: 45, y: 7, width: 22 } : { rotate: 0, y: 0, width: 22 }}
+            transition={{ type: "spring", stiffness: 380, damping: 24 }}
+            className="h-[2px] bg-zinc-900 rounded-full origin-center block"
+          />
+          {/* Line 2 - Dynamic Middle Bar (Signature Studio Accent) */}
+          <motion.span
+            animate={isMenuOpen ? { opacity: 0, scaleX: 0, width: 0 } : { opacity: 1, scaleX: 1, width: 14 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="h-[2px] bg-blue-600 rounded-full origin-center block self-center"
+          />
+          {/* Line 3 - Bottom Bar */}
+          <motion.span
+            animate={isMenuOpen ? { rotate: -45, y: -7, width: 22 } : { rotate: 0, y: 0, width: 18 }}
+            transition={{ type: "spring", stiffness: 380, damping: 24 }}
+            className="h-[2px] bg-zinc-900 rounded-full origin-center block"
+          />
         </button>
       </div>
 
@@ -947,10 +969,11 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white border-b border-black/5 p-6 flex flex-col gap-6 md:hidden shadow-xl"
+            initial={{ opacity: 0, y: -16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.98 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-black/10 p-6 flex flex-col gap-6 md:hidden shadow-2xl"
           >
             {navItems.map((item) => (
               item.path ? (
@@ -1265,12 +1288,49 @@ const About = () => (
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         className="relative group h-full flex items-center justify-center"
       >
-        <IPhoneMockupProfile className="w-full" />
+        <div className="relative w-full max-w-md mx-auto">
+          {/* Subtle ambient glass glow behind portrait */}
+          <div className="absolute -inset-4 bg-gradient-to-tr from-blue-600/20 via-purple-600/15 to-transparent rounded-[36px] blur-2xl opacity-75 group-hover:opacity-100 transition-opacity" />
+          
+          <AppleGlassCard
+            className="p-4 sm:p-5 relative overflow-hidden"
+            variant="light"
+            scaleOnHover={1.02}
+            liftOnHover={-6}
+            tiltIntensity={4}
+            glareIntensity={0.4}
+          >
+            {/* Top Minimal Pill Tag */}
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 text-[11px] font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-widest">
+                <Sparkles size={11} className="text-blue-500" />
+                Creative Lead & VFX Artist
+              </span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" title="Available for projects" />
+            </div>
+
+            {/* Clean Profile Display Picture (DP) */}
+            <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-zinc-900 border border-black/5 dark:border-white/10 shadow-lg">
+              <img
+                src={zeeshanProfilePic}
+                alt="Zeeshan - Visual & Thumbnail Designer"
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+
+              {/* Bottom Card Title Overlay */}
+              <div className="absolute bottom-4 left-4 right-4 z-10 text-white">
+                <h3 className="font-display font-bold text-xl leading-tight">Zeeshan</h3>
+                <p className="text-xs text-white/75 font-medium">Architect of Attention • 500M+ Views</p>
+              </div>
+            </div>
+          </AppleGlassCard>
+        </div>
       </motion.div>
     </div>
   </section>
@@ -2094,7 +2154,7 @@ export default function App() {
 
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4400);
+    }, 3300);
 
     const observerOptions = {
       root: null,
@@ -2144,7 +2204,10 @@ export default function App() {
         <div className="bg-white/0 min-h-screen selection:bg-neon-blue/20 selection:text-black scroll-smooth relative">
           <AIChat />
           <InteractiveGlassCursor />
-          <GlassmorphicOnLoadPopup />
+          {/* Desktop-only Notification Popup (Disabled on mobile) */}
+          <div className="hidden md:block">
+            <GlassmorphicOnLoadPopup />
+          </div>
           
           {/* Global Background Elements */}
           <div className="fixed inset-0 grid-bg opacity-10 pointer-events-none" />

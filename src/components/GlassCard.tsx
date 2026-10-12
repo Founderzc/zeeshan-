@@ -103,23 +103,23 @@ export const GlassCard: React.FC<GlassCardProps> = ({
   };
 
   const blurClasses = {
-    md: 'backdrop-blur-md',
-    lg: 'backdrop-blur-lg',
-    xl: 'backdrop-blur-xl',
-    '2xl': 'backdrop-blur-2xl',
+    md: 'backdrop-blur-none md:backdrop-blur-md',
+    lg: 'backdrop-blur-none md:backdrop-blur-lg',
+    xl: 'backdrop-blur-none md:backdrop-blur-xl',
+    '2xl': 'backdrop-blur-none md:backdrop-blur-2xl',
   }[blurStrength];
 
   const variantStyles = {
     light:
-      'bg-white/75 text-zinc-900 border-white/80 dark:bg-black/20 dark:border-white/10 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.02),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/75 md:dark:bg-black/20 text-zinc-900 border-white/80 dark:border-white/10 shadow-[0_12px_36px_-6px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.02),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
     subtle:
-      'bg-white/55 text-zinc-900 border-white/60 dark:bg-black/15 dark:border-white/10 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.7)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/55 md:dark:bg-black/15 text-zinc-900 border-white/60 dark:border-white/10 shadow-[0_8px_24px_-4px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.7)]',
     dark:
-      'bg-zinc-950/75 text-white border-white/15 shadow-[0_14px_45px_-10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)]',
+      'bg-zinc-950 text-white md:bg-zinc-950/75 border-white/15 shadow-[0_14px_45px_-10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)]',
     'glow-blue':
-      'bg-white/80 text-zinc-900 border-blue-500/30 shadow-[0_14px_40px_-8px_rgba(0,112,243,0.12),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/80 text-zinc-900 border-blue-500/30 shadow-[0_14px_40px_-8px_rgba(0,112,243,0.12),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
     'glow-purple':
-      'bg-white/80 text-zinc-900 border-purple-500/30 shadow-[0_14px_40px_-8px_rgba(121,40,202,0.12),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
+      'bg-white/95 dark:bg-zinc-900/95 md:bg-white/80 text-zinc-900 border-purple-500/30 shadow-[0_14px_40px_-8px_rgba(121,40,202,0.12),inset_0_1.5px_1px_rgba(255,255,255,0.95)]',
   }[variant];
 
   return (
@@ -148,7 +148,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({
         damping: 25,
         mass: 0.5,
       }}
-      className={`relative rounded-[28px] border overflow-hidden transition-colors ${blurClasses} ${variantStyles} ${className}`}
+      className={`relative rounded-[28px] border overflow-hidden transition-colors transform-gpu will-change-transform ${blurClasses} ${variantStyles} ${className}`}
       {...(rest as any)}
     >
       {/* Specular Inner Glare Overlay */}

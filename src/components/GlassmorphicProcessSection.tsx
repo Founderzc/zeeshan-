@@ -117,7 +117,7 @@ export const GlassmorphicProcessSection: React.FC<{ className?: string }> = ({ c
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 backdrop-blur-xl shadow-sm text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 dark:bg-zinc-900/95 md:bg-white/80 md:dark:bg-white/10 border border-white/80 dark:border-white/15 backdrop-blur-none md:backdrop-blur-xl shadow-sm text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest transform-gpu"
           >
             <Workflow size={13} className="text-blue-500 animate-pulse" />
             <span>How I Work • 4-Step Architecture</span>

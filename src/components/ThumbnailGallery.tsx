@@ -1369,7 +1369,7 @@ Return ONLY a JSON object with 'title', 'description', 'category', and 'stats'.`
           </div>
 
           {hasMore && (
-            <div className="flex justify-center pt-8">
+            <div className="hidden md:flex justify-center pt-8">
               <button
                 onClick={() => fetchThumbnails(false)}
                 disabled={loadingMore}

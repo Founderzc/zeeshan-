@@ -29,6 +29,9 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import regeneratedWorkPic from '../assets/images/regenerated_image_1791687574607.jpg';
+import enablersAvatar from '../assets/images/regenerated_image_1791817292482.png';
+import russianRockAvatar from '../assets/images/regenerated_image_1791817294093.png';
+import rowRhythmAvatar from '../assets/images/regenerated_image_1791817303664.png';
 import { useAdmin } from '../hooks/useAdmin';
 import { ThumbnailGallery } from '../components/ThumbnailGallery';
 import { BehindTheScenes } from '../components/BehindTheScenes';
@@ -57,9 +60,9 @@ const REVIEWS = [
   { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", review: "The attention to detail and psychological triggers Zeeshan uses are unmatched. Highly recommended for any serious creator.", rating: 5, image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600", result: "400K+ Views" },
   { id: 3, name: "Rob Lipsett", handle: "491K subscribers", review: "Fast, reliable, and incredibly creative. Zeeshan understands the fitness niche perfectly.", rating: 5, image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600", result: "Viral Hit" },
   { id: 4, name: "Kristen & Siya", handle: "329K subscribers", review: "Our travel vlogs finally have the visual hooks they deserve. Zeeshan is a master of his craft.", rating: 5, image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600", result: "15% Growth" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", review: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", rating: 5, image: "https://image2url.com/r2/default/images/1774670864556-c1f9664f-9c57-4938-9b23-2eaa0371cdf4.png", color: "text-blue-700", result: "592K+ Impact" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", review: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", rating: 5, image: "https://image2url.com/r2/default/images/1774670662268-7fe3deea-41b2-4c6f-af8c-454ec4daffa6.png", color: "text-red-600", result: "690K+ Reach" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", review: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", rating: 5, image: "https://image2url.com/r2/default/images/1774860421994-990bce61-ed25-44f2-9291-004db964e791.png", color: "text-zinc-600", result: "35K+ Subs" },
+  { id: 5, name: "Enablers", handle: "592K subscribers", review: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", rating: 5, image: enablersAvatar, color: "text-blue-700", result: "592K+ Impact" },
+  { id: 6, name: "Russian Rock", handle: "690K subscribers", review: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", rating: 5, image: russianRockAvatar, color: "text-red-600", result: "690K+ Reach" },
+  { id: 7, name: "Row Rhythm", handle: "35K subscribers", review: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", rating: 5, image: rowRhythmAvatar, color: "text-zinc-600", result: "35K+ Subs" },
 ];
 
 const CLIENTS = [
@@ -67,9 +70,9 @@ const CLIENTS = [
   { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600" },
   { id: 3, name: "Rob Lipsett", handle: "491K subscribers", image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600" },
   { id: 4, name: "Kristen & Siya", handle: "329K subscribers", image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", image: "https://image2url.com/r2/default/images/1774670864556-c1f9664f-9c57-4938-9b23-2eaa0371cdf4.png", color: "text-blue-700" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: "https://image2url.com/r2/default/images/1774670662268-7fe3deea-41b2-4c6f-af8c-454ec4daffa6.png", color: "text-red-600" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: "https://image2url.com/r2/default/images/1774860421994-990bce61-ed25-44f2-9291-004db964e791.png", color: "text-zinc-600" },
+  { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
+  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
+  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
 ];
 
 const BackgroundFog = () => (
