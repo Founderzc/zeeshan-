@@ -32,6 +32,10 @@ import regeneratedWorkPic from '../assets/images/regenerated_image_1791687574607
 import enablersAvatar from '../assets/images/regenerated_image_1791817292482.png';
 import russianRockAvatar from '../assets/images/regenerated_image_1791817294093.png';
 import rowRhythmAvatar from '../assets/images/regenerated_image_1791817303664.png';
+import serrahxAvatar from '../assets/images/regenerated_image_1791908842046.jpg';
+import mrJayPlayzAvatar from '../assets/images/regenerated_image_1791908843465.jpg';
+import haProdClientAvatar from '../assets/images/regenerated_image_1791958692290.png';
+import haProdReviewAvatar from '../assets/images/regenerated_image_1791958694279.png';
 import { useAdmin } from '../hooks/useAdmin';
 import { ThumbnailGallery } from '../components/ThumbnailGallery';
 import { BehindTheScenes } from '../components/BehindTheScenes';
@@ -63,6 +67,9 @@ const REVIEWS = [
   { id: 5, name: "Enablers", handle: "592K subscribers", review: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", rating: 5, image: enablersAvatar, color: "text-blue-700", result: "592K+ Impact" },
   { id: 6, name: "Russian Rock", handle: "690K subscribers", review: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", rating: 5, image: russianRockAvatar, color: "text-red-600", result: "690K+ Reach" },
   { id: 7, name: "Row Rhythm", handle: "35K subscribers", review: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", rating: 5, image: rowRhythmAvatar, color: "text-zinc-600", result: "35K+ Subs" },
+  { id: 8, name: "serrahx", handle: "420K subscribers", review: "Working with Zeeshan took our channel to an entirely new tier. The visual hierarchy consistently lifts our day-one CTR past 17%.", rating: 5, image: serrahxAvatar, color: "text-indigo-600", result: "+17.6% CTR" },
+  { id: 9, name: "mr jay playz", handle: "840K subscribers", review: "Zeeshan delivers pure scroll-stopping gold! In gaming where competition is cutthroat, his 3D lighting and depth separation give us an instant 18%+ CTR edge.", rating: 5, image: mrJayPlayzAvatar, color: "text-cyan-600", result: "+18.9% CTR" },
+  { id: 10, name: "HA PROD", handle: "Creative Agency", review: "HA PROD trusts Zeeshan exclusively for our top tier creator rosters—high-volume thumbnails executed at pristine agency standards.", rating: 5, image: haProdReviewAvatar, color: "text-pink-600", result: "10M+ Network" },
 ];
 
 const CLIENTS = [
@@ -73,6 +80,9 @@ const CLIENTS = [
   { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
   { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
   { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
+  { id: 8, name: "serrahx", handle: "420K subscribers", image: serrahxAvatar, color: "text-indigo-600" },
+  { id: 9, name: "mr jay playz", handle: "840K subscribers", image: mrJayPlayzAvatar, color: "text-cyan-600" },
+  { id: 10, name: "HA PROD", handle: "Creative Agency", image: haProdClientAvatar, color: "text-pink-600" },
 ];
 
 const BackgroundFog = () => (

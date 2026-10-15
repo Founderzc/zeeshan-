@@ -1,10 +1,182 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Sparkles, CheckCircle2 } from 'lucide-react';
-import { SpectralGlassHover } from './SpectralGlassHover';
+import React, { useState, useRef, useMemo } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
+import { Sparkles, CheckCircle2, Plus, ArrowUpRight, ArrowDownRight, ArrowUpLeft, Shield, Award } from 'lucide-react';
 import enablersAvatar from '../assets/images/regenerated_image_1791817292482.png';
 import russianRockAvatar from '../assets/images/regenerated_image_1791817294093.png';
 import rowRhythmAvatar from '../assets/images/regenerated_image_1791817303664.png';
+import serrahxAvatar from '../assets/images/regenerated_image_1791908842046.jpg';
+import mrJayPlayzAvatar from '../assets/images/regenerated_image_1791908843465.jpg';
+import haProdAvatar from '../assets/images/regenerated_image_1791958692290.png';
+
+export type SlotType = 'creator' | 'brand' | 'dashed-empty';
+
+export interface CreatorGridSlot {
+  id: string;
+  type: SlotType;
+  name?: string;
+  handle?: string;
+  image?: string;
+  isGrayscale?: boolean; // black-and-white stylized portrait frames
+  emptyLabel?: string;
+  category?: string;
+  tooltip?: {
+    text: string;
+    arrowDirection: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+    style: 'charcoal' | 'electric-blue' | 'emerald';
+  };
+}
+
+// Brand Logo constant - dead center slot
+export const Z_SCORE_BRAND_LOGO = "https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png";
+
+// EXTERNALIZED, FULLY EDITABLE DATA MATRIX
+// Arranged in 3 rows of 5 columns (15 slots total) with dead-center Brand slot at Row 2, Column 3 (index 7).
+export const CREATOR_GRID_MATRIX: CreatorGridSlot[] = [
+  // --- ROW 1 (5 Slots) ---
+  {
+    id: 'c-1',
+    type: 'creator',
+    name: 'Azul Welz',
+    handle: '357K Subscribers',
+    image: 'https://i.ibb.co/ddJ5FDm/image.png',
+    isGrayscale: false,
+    category: 'Entertainment',
+    tooltip: {
+      text: 'Verified Partner ★',
+      arrowDirection: 'bottom-right',
+      style: 'emerald'
+    }
+  },
+  {
+    id: 'empty-1',
+    type: 'dashed-empty',
+    emptyLabel: 'Reserve Slot'
+  },
+  {
+    id: 'c-2',
+    type: 'creator',
+    name: 'Kristen & Siya',
+    handle: '329K Subscribers',
+    image: 'https://i.ibb.co/rR6LmpRm/image.png',
+    isGrayscale: true, // Black-and-white stylized portrait frame
+    category: 'Travel'
+  },
+  {
+    id: 'c-3',
+    type: 'creator',
+    name: 'Hustle Ninjas',
+    handle: '301K Subscribers',
+    image: 'https://i.ibb.co/NdXYBpM4/image.png',
+    isGrayscale: false,
+    category: 'Finance',
+    tooltip: {
+      text: 'Admin ↗',
+      arrowDirection: 'top-right',
+      style: 'charcoal'
+    }
+  },
+  {
+    id: 'empty-2',
+    type: 'dashed-empty',
+    emptyLabel: 'Next Creator'
+  },
+
+  // --- ROW 2 (5 Slots - Dead Center is Brand Slot at index 7) ---
+  {
+    id: 'c-4',
+    type: 'creator',
+    name: 'Row Rhythm',
+    handle: '35K Subscribers',
+    image: rowRhythmAvatar,
+    isGrayscale: true, // Black-and-white stylized portrait frame
+    category: 'Tech'
+  },
+  {
+    id: 'c-5',
+    type: 'creator',
+    name: 'Rob Lipsett',
+    handle: '491K Subscribers',
+    image: 'https://i.ibb.co/6J4CbdQf/image.png',
+    isGrayscale: false,
+    category: 'Fitness'
+  },
+  {
+    // === EXACT DEAD-CENTER BRAND LOGO INTEGRATION ===
+    id: 'brand-center',
+    type: 'brand',
+    name: 'Z Score',
+    handle: 'Visual Architecture Agency',
+    image: Z_SCORE_BRAND_LOGO,
+    category: 'Agency Headquarters'
+  },
+  {
+    id: 'c-6',
+    type: 'creator',
+    name: 'Enablers',
+    handle: '592K Subscribers',
+    image: enablersAvatar,
+    isGrayscale: false,
+    category: 'Business',
+    tooltip: {
+      text: 'Lead Visual Director ↖',
+      arrowDirection: 'top-left',
+      style: 'electric-blue'
+    }
+  },
+  {
+    id: 'c-7',
+    type: 'creator',
+    name: 'Russian Rock',
+    handle: '690K Subscribers',
+    image: russianRockAvatar,
+    isGrayscale: true, // Black-and-white stylized portrait frame
+    category: 'Gaming'
+  },
+
+  // --- ROW 3 (5 Slots) ---
+  {
+    id: 'empty-3',
+    type: 'dashed-empty',
+    emptyLabel: 'Slot Available'
+  },
+  {
+    id: 'c-8',
+    type: 'creator',
+    name: 'serrahx',
+    handle: '420K Subscribers',
+    image: serrahxAvatar,
+    isGrayscale: false,
+    category: 'Tech'
+  },
+  {
+    id: 'c-9',
+    type: 'creator',
+    name: 'mr jay playz',
+    handle: '840K Subscribers',
+    image: mrJayPlayzAvatar,
+    isGrayscale: true, // Black-and-white stylized portrait frame
+    category: 'Gaming'
+  },
+  {
+    id: 'c-10',
+    type: 'creator',
+    name: 'HA PROD',
+    handle: 'Creative Agency',
+    image: haProdAvatar,
+    isGrayscale: false,
+    category: 'Agency Partner',
+    tooltip: {
+      text: 'Content Reviewer ↘',
+      arrowDirection: 'bottom-right',
+      style: 'charcoal'
+    }
+  },
+  {
+    id: 'empty-4',
+    type: 'dashed-empty',
+    emptyLabel: 'Open Collab'
+  }
+];
 
 export interface TrustedClient {
   id: number;
@@ -14,42 +186,75 @@ export interface TrustedClient {
   color: string;
 }
 
-export const TRUSTED_CLIENTS_DATA: TrustedClient[] = [
-  { id: 1, name: "Azul Welz", handle: "357K subscribers", image: "https://i.ibb.co/ddJ5FDm/image.png", color: "text-blue-600" },
-  { id: 2, name: "Hustle Ninjas", handle: "301K subscribers", image: "https://i.ibb.co/NdXYBpM4/image.png", color: "text-orange-600" },
-  { id: 3, name: "Rob Lipsett", handle: "491K subscribers", image: "https://i.ibb.co/6J4CbdQf/image.png", color: "text-purple-600" },
-  { id: 4, name: "Kristen & Siya", handle: "329K subscribers", image: "https://i.ibb.co/rR6LmpRm/image.png", color: "text-emerald-600" },
-  { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
-  { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
-  { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
-];
-
-export const TrustedCreatorsSection: React.FC<{
-  clients?: TrustedClient[];
+export interface TrustedCreatorsSectionProps {
   className?: string;
-}> = ({
-  clients = TRUSTED_CLIENTS_DATA,
-  className = ''
+  gridData?: CreatorGridSlot[];
+  brandLogoUrl?: string;
+  clients?: any;
+}
+
+export const TrustedCreatorsSection: React.FC<TrustedCreatorsSectionProps> = ({
+  className = '',
+  gridData = CREATOR_GRID_MATRIX,
+  brandLogoUrl = Z_SCORE_BRAND_LOGO,
+  clients
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeHoverSlot, setActiveHoverSlot] = useState<CreatorGridSlot | null>(null);
+
+  // Hardware-accelerated 3D parallax tracking whenever the mouse moves around
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), {
+    stiffness: 120,
+    damping: 22,
+    mass: 0.4
+  });
+
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), {
+    stiffness: 120,
+    damping: 22,
+    mass: 0.4
+  });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setActiveHoverSlot(null);
+  };
+
   return (
-    <section className={`py-12 sm:py-16 px-4 sm:px-6 relative overflow-hidden bg-[#F5F5F7] dark:bg-black/95 transition-colors ${className}`}>
-      {/* Background Saturated Ambient Glow */}
+    <section 
+      id="trusted-creators" 
+      className={`py-16 sm:py-20 px-4 sm:px-6 relative overflow-visible bg-[#F5F5F7] dark:bg-black/95 transition-colors ${className}`}
+    >
+      {/* Background Soft Saturated Ambient Glow */}
       <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[260px] bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-[130px] rounded-full pointer-events-none -z-10" 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[340px] bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 blur-[140px] rounded-full pointer-events-none -z-10" 
       />
 
-      <div className="max-w-6xl mx-auto relative z-10 space-y-6 sm:space-y-8">
-        {/* Compact Apple iOS Section Header */}
-        <div className="text-center space-y-2 max-w-xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10 space-y-8 sm:space-y-10">
+        {/* Minimalist Apple iOS Section Header */}
+        <div className="text-center space-y-2.5 max-w-xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] text-blue-600 dark:text-blue-400 text-antialiased"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-2xl bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] text-blue-600 dark:text-blue-400 text-antialiased"
           >
             <Sparkles size={11} className="text-blue-500" />
-            <span>Premium Network</span>
+            <span>High-Impact Creator Matrix</span>
           </motion.div>
 
           <motion.h2
@@ -57,7 +262,7 @@ export const TrustedCreatorsSection: React.FC<{
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl font-display font-black text-[#1d1d1f] dark:text-white tracking-tight text-antialiased"
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-[#1d1d1f] dark:text-white tracking-tight text-antialiased leading-none"
           >
             TRUSTED BY <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">CREATORS.</span>
           </motion.h2>
@@ -69,88 +274,192 @@ export const TrustedCreatorsSection: React.FC<{
             transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm font-medium text-antialiased leading-relaxed"
           >
-            Partnering with world-class creators generating hundreds of millions of views.
+            A high-performance roster of top-tier creators, channel founders, and creative production agencies.
           </motion.p>
         </div>
 
-        {/* Unified Compact Dashboard-Style Capsule Wrapper */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98, y: 16 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="p-1.5 sm:p-2 rounded-[28px] backdrop-blur-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15),0_12px_40px_-15px_rgba(0,0,0,0.06)] relative overflow-hidden"
+        {/* ========================================================================= */}
+        {/* THE ISOMETRIC / OFFSET DASHED CAPSULE SQUIRCLE GRID MATRIX                */}
+        {/* Treatment: backdrop-blur-2xl bg-white/5 border border-white/10            */}
+        {/* With sub-pixel responsive glass & 3D parallax tracking                   */}
+        {/* ========================================================================= */}
+        <div 
+          ref={containerRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="relative max-w-4xl mx-auto [perspective:1400px] py-4"
         >
-          {/* Soft internal glare rim */}
-          <div 
-            className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/20 dark:ring-white/10" 
-            aria-hidden="true" 
-          />
+          <motion.div
+            style={{
+              rotateX,
+              rotateY,
+              transformStyle: 'preserve-3d'
+            }}
+            className="p-3 sm:p-5 md:p-7 rounded-[36px] sm:rounded-[44px] backdrop-blur-2xl bg-white/40 dark:bg-white/5 border border-white/60 dark:border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_20px_60px_-15px_rgba(0,0,0,0.06)] relative overflow-visible transform-gpu will-change-transform"
+          >
+            {/* Subtle internal glass rim reflection */}
+            <div 
+              className="pointer-events-none absolute inset-0 rounded-[36px] sm:rounded-[44px] ring-1 ring-inset ring-white/50 dark:ring-white/10" 
+              aria-hidden="true" 
+            />
 
-          {/* Ultra-compact block grid with minimal padding and tight spacing (gap-1.5 / gap-2) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1.5 sm:gap-2 relative z-10">
-            {clients.map((client, i) => (
-              <motion.div
-                key={client.id}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  delay: i * 0.04, 
-                  duration: 0.45, 
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
-                whileHover={{ 
-                  y: -4, 
-                  scale: 1.02,
-                  transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } 
-                }}
-                data-cursor="card"
-                data-cursor-badge="CREATOR"
-                className="group relative p-2.5 sm:p-3 rounded-2xl backdrop-blur-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] hover:bg-white/15 hover:border-white/25 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_25px_-5px_rgba(0,0,0,0.08)] flex flex-col items-center text-center transition-all duration-300 cursor-pointer overflow-hidden"
-              >
-                {/* Subtle soft internal specular glare on hover */}
-                <div 
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
-                  aria-hidden="true" 
-                />
+            {/* 5-Column Staggered Squircle Matrix */}
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5 sm:gap-3.5 md:gap-4 relative z-10 items-center justify-items-center">
+              {gridData.map((slot, index) => {
+                const isCenterBrand = slot.type === 'brand';
+                const isDashedEmpty = slot.type === 'dashed-empty';
 
-                {/* Compact Circular Avatar with Spectral Glass Glow */}
-                <SpectralGlassHover
-                  rounded="rounded-full"
-                  className="p-0.5 bg-white/10 dark:bg-white/5"
-                  blurAmount={16}
-                  auraScale={1.2}
-                  tiltIntensity={4}
-                  containerClassName="mb-2"
-                >
-                  <div className="w-11 h-11 rounded-full overflow-hidden relative shadow-sm">
-                    <img
-                      src={client.image}
-                      alt={client.name}
-                      className="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all duration-500"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                    />
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-600 rounded-full ring-1 ring-white flex items-center justify-center">
-                      <CheckCircle2 size={8} className="text-white" />
-                    </div>
-                  </div>
-                </SpectralGlassHover>
+                return (
+                  <motion.div
+                    key={slot.id}
+                    initial={{ opacity: 0, scale: 0.9, y: 16 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      delay: Math.min(index * 0.035, 0.4),
+                      duration: 0.45,
+                      ease: [0.16, 1, 0.3, 1]
+                    }}
+                    whileHover={{
+                      scale: isCenterBrand ? 1.08 : 1.05,
+                      y: -4,
+                      transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] }
+                    }}
+                    onMouseEnter={() => setActiveHoverSlot(slot)}
+                    data-cursor="card"
+                    className="relative group flex items-center justify-center w-full aspect-square max-w-[130px] sm:max-w-[145px]"
+                  >
+                    {/* ======================================================= */}
+                    {/* 1. EXACT DEAD-CENTER BRAND LOGO SLOT                    */}
+                    {/* ======================================================= */}
+                    {isCenterBrand ? (
+                      <div className="relative w-full h-full rounded-[26px] sm:rounded-[32px] p-2.5 sm:p-3.5 bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-950/90 border-2 border-blue-500/40 shadow-[0_12px_36px_rgba(0,85,255,0.25),inset_0_1px_2px_rgba(255,255,255,0.9)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden z-20">
+                        {/* Glowing radial halo behind logo */}
+                        <div className="absolute inset-0 bg-radial-gradient from-blue-500/20 via-transparent to-transparent pointer-events-none" />
 
-                {/* Creator Metrics & Razor-Sharp Text */}
-                <div className="w-full min-w-0 space-y-0.5">
-                  <h4 className="text-xs font-bold text-[#1d1d1f] dark:text-white tracking-tight truncate text-antialiased group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {client.name}
-                  </h4>
-                  <p className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider truncate text-antialiased">
-                    {client.handle}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+                        {/* Z Score Uploaded Brand Logo */}
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-black dark:bg-white p-1.5 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                          <img
+                            src={brandLogoUrl}
+                            alt="Z Score Agency Logo"
+                            className="w-full h-full object-contain filter invert dark:invert-0"
+                            loading="eager"
+                          />
+                        </div>
+
+                        {/* Center Badge Label */}
+                        <div className="mt-1 sm:mt-1.5">
+                          <span className="block text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-zinc-950 dark:text-white font-display">
+                            Z SCORE
+                          </span>
+                          <span className="block text-[8px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                            AGENCY HQ
+                          </span>
+                        </div>
+
+                        {/* Pulse Ring */}
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-blue-600 rounded-full ring-2 ring-white dark:ring-zinc-900 animate-pulse" />
+                      </div>
+                    ) : isDashedEmpty ? (
+                      /* ======================================================= */
+                      /* 2. EMPTY LIGHT-DASHED GRID SHAPE SQUIRCLE               */
+                      /* ======================================================= */
+                      <div className="relative w-full h-full rounded-[24px] sm:rounded-[28px] border-2 border-dashed border-zinc-300 dark:border-white/15 bg-white/20 dark:bg-white/[0.02] flex flex-col items-center justify-center text-center p-2 hover:border-blue-400 hover:bg-blue-50/20 dark:hover:bg-blue-500/5 transition-all duration-300 cursor-pointer group/empty">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center text-zinc-400 group-hover/empty:text-blue-600 group-hover/empty:scale-110 transition-all">
+                          <Plus size={14} />
+                        </div>
+                        <span className="mt-1 text-[9px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 group-hover/empty:text-zinc-700 dark:group-hover/empty:text-zinc-300 transition-colors">
+                          {slot.emptyLabel || 'Slot'}
+                        </span>
+                      </div>
+                    ) : (
+                      /* ======================================================= */
+                      /* 3. CREATOR AVATAR SQUIRCLE (Colorful OR Black-and-White)*/
+                      /* ======================================================= */
+                      <div className="relative w-full h-full rounded-[24px] sm:rounded-[28px] p-1 sm:p-1.5 backdrop-blur-2xl bg-white/60 dark:bg-white/10 border border-white/80 dark:border-white/15 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_20px_-6px_rgba(0,0,0,0.06)] hover:bg-white hover:border-white hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer flex flex-col items-center justify-center">
+                        <div className="relative w-full h-full rounded-[20px] sm:rounded-[24px] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                          <img
+                            src={slot.image}
+                            alt={slot.name || 'Creator'}
+                            className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
+                              slot.isGrayscale
+                                ? 'grayscale contrast-125 group-hover:grayscale-0'
+                                : 'grayscale-0'
+                            }`}
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                          {/* Verified Check Badge */}
+                          <div className="absolute bottom-1 right-1 sm:bottom-1.5 sm:right-1.5 w-4 h-4 bg-blue-600 rounded-full ring-1 ring-white flex items-center justify-center">
+                            <CheckCircle2 size={10} className="text-white" />
+                          </div>
+
+                          {/* Hover Name Overlay */}
+                          <div className="absolute bottom-1 left-1.5 right-6 opacity-0 group-hover:opacity-100 transition-opacity truncate">
+                            <span className="text-[9px] font-bold text-white truncate block drop-shadow-sm">
+                              {slot.name}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* ======================================================= */}
+                    {/* 4. FLOATING SLEEK TOOLTIP PILL BADGES POINTING TO SLOTS */}
+                    {/* Examples: "Admin ↗", "Content Reviewer ↘", etc.         */}
+                    {/* ======================================================= */}
+                    {slot.tooltip && (
+                      <div
+                        style={{ transform: 'translateZ(30px)' }}
+                        className={`absolute z-30 pointer-events-none transition-transform duration-300 group-hover:scale-110 ${
+                          slot.tooltip.arrowDirection === 'top-right'
+                            ? '-top-2.5 -right-3'
+                            : slot.tooltip.arrowDirection === 'top-left'
+                            ? '-top-2.5 -left-3'
+                            : slot.tooltip.arrowDirection === 'bottom-left'
+                            ? '-bottom-2.5 -left-3'
+                            : '-bottom-2.5 -right-3'
+                        }`}
+                      >
+                        <div
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-xl border text-antialiased ${
+                            slot.tooltip.style === 'charcoal'
+                              ? 'bg-[#1d1d1f] text-white border-white/20 shadow-black/30'
+                              : slot.tooltip.style === 'electric-blue'
+                              ? 'bg-[#0055ff] text-white border-white/30 shadow-blue-500/30'
+                              : 'bg-emerald-600 text-white border-white/30 shadow-emerald-500/30'
+                          }`}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span>{slot.tooltip.text}</span>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Bottom Status Ticker / Network Statistics */}
+            <div className="mt-5 sm:mt-6 pt-4 border-t border-black/5 dark:border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 font-medium">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/5 dark:bg-white/10 text-[10px] font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+                  <Shield size={10} className="text-blue-500" />
+                  Verified Roster
+                </span>
+                <span className="text-[11px] text-zinc-400 hidden sm:inline">
+                  500M+ Aggregate Views Influenced
+                </span>
+              </div>
+
+              <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                Active Creator Network
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

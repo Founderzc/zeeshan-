@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
-import { Eye, ArrowUpRight } from 'lucide-react';
+import { Eye, ArrowUpRight, MoveHorizontal } from 'lucide-react';
 
-export type CursorMode = 'default' | 'interactive' | 'thumbnail' | 'text' | 'hidden';
+export type CursorMode = 'default' | 'interactive' | 'thumbnail' | 'text' | 'hidden' | 'drag';
 
 /**
  * InteractiveGlassCursor
@@ -71,7 +71,16 @@ export const InteractiveGlassCursor: React.FC = () => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      // 1. Check for Thumbnail Card or Project Card
+      // 1. Check for Drag targets (Before/After comparison handle, sliders)
+      const dragTarget = target.closest('[data-cursor="drag"], .cursor-drag-target');
+      if (dragTarget) {
+        setCursorMode('drag');
+        const badgeLabel = dragTarget.getAttribute('data-cursor-badge') || 'DRAG';
+        setCustomBadge(badgeLabel);
+        return;
+      }
+
+      // 2. Check for Thumbnail Card or Project Card
       const thumbCard = target.closest('[data-cursor="thumbnail"], [data-cursor="card"], .glass-thumbnail-card');
       if (thumbCard) {
         setCursorMode('thumbnail');
@@ -80,7 +89,7 @@ export const InteractiveGlassCursor: React.FC = () => {
         return;
       }
 
-      // 2. Check for Interactive Buttons / Links / Inputs
+      // 3. Check for Interactive Buttons / Links / Inputs
       const interactive = target.closest('button, a, input, textarea, select, [role="button"], [data-cursor="interactive"]');
       if (interactive) {
         setCursorMode('interactive');
@@ -88,7 +97,7 @@ export const InteractiveGlassCursor: React.FC = () => {
         return;
       }
 
-      // 3. Check for Text Elements with high vibrancy requirement
+      // 4. Check for Text Elements with high vibrancy requirement
       const textElement = target.closest('h1, h2, h3, h4, p, blockquote, [data-cursor="text"]');
       if (textElement) {
         setCursorMode('text');
@@ -122,6 +131,8 @@ export const InteractiveGlassCursor: React.FC = () => {
   // Size configurations depending on interaction mode
   const getAuraSize = () => {
     switch (cursorMode) {
+      case 'drag':
+        return { width: 68, height: 68 };
       case 'thumbnail':
         return { width: 72, height: 72 };
       case 'interactive':
@@ -148,10 +159,10 @@ export const InteractiveGlassCursor: React.FC = () => {
         }}
         animate={{
           opacity: isVisible ? (cursorMode === 'text' ? 0 : 1) : 0,
-          scale: isMouseDown ? 0.6 : cursorMode === 'thumbnail' ? 0 : cursorMode === 'interactive' ? 1.3 : 1,
+          scale: isMouseDown ? 0.6 : cursorMode === 'thumbnail' ? 0 : cursorMode === 'drag' ? 0 : cursorMode === 'interactive' ? 1.3 : 1,
           width: 5,
           height: 5,
-          backgroundColor: cursorMode === 'interactive' ? '#2563eb' : '#09090b',
+          backgroundColor: cursorMode === 'interactive' || cursorMode === 'drag' ? '#0055ff' : '#09090b',
         }}
         transition={{ duration: 0.15, ease: 'easeOut' }}
       />
@@ -185,6 +196,8 @@ export const InteractiveGlassCursor: React.FC = () => {
           className={`relative w-full h-full rounded-full flex items-center justify-center transition-all duration-300 ${
             cursorMode === 'text'
               ? 'bg-white rounded-full'
+              : cursorMode === 'drag'
+              ? 'bg-[#0055ff]/15 border border-[#0055ff]/80 shadow-[0_0_25px_rgba(0,85,255,0.4),inset_0_1px_2px_rgba(255,255,255,0.9)] backdrop-blur-md'
               : cursorMode === 'thumbnail'
               ? 'bg-white/80 border border-white/95 shadow-[0_8px_30px_rgba(0,112,243,0.35),0_0_15px_rgba(255,255,255,0.8),inset_0_1px_2px_rgba(255,255,255,1)] backdrop-blur-md'
               : cursorMode === 'interactive'
@@ -204,8 +217,20 @@ export const InteractiveGlassCursor: React.FC = () => {
             />
           )}
 
-          {/* Thumbnail Badge Overlay (Apple Vibrancy Label) */}
+          {/* Badge Overlay (Apple Vibrancy Label) */}
           <AnimatePresence>
+            {cursorMode === 'drag' && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-[#0055ff] font-display"
+              >
+                <MoveHorizontal size={12} className="stroke-[2.5]" />
+                <span>{customBadge || 'DRAG'}</span>
+              </motion.div>
+            )}
             {cursorMode === 'thumbnail' && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.6 }}

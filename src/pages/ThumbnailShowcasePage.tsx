@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { 
@@ -16,8 +16,31 @@ import {
 } from 'lucide-react';
 import { ThumbnailGallery } from '../components/ThumbnailGallery';
 import { AppleGlassCard } from '../components/AppleGlassCard';
+import { BeforeAfterThumbnailSlider } from '../components/BeforeAfterThumbnailSlider';
+
+const ROTATING_PHRASES = [
+  "SHOWCASE.",
+  "THAT DRIVE SALES.",
+  "THAT BOOST CTR.",
+  "THAT GRAB ATTENTION.",
+  "THAT GENERATE VIEWS.",
+  "THAT STOP THE SCROLL.",
+  "THAT OUTPERFORM COMPETITORS.",
+  "FOR TOP CREATORS.",
+  "POWERED BY VISUAL PSYCHOLOGY.",
+  "TESTED ACROSS 500M+ VIEWS."
+];
 
 export const ThumbnailShowcasePage: React.FC = () => {
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPhraseIndex((prev) => (prev + 1) % ROTATING_PHRASES.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleOpenInNewWindow = () => {
     window.open('/thumbnails', '_blank', 'noopener,noreferrer');
   };
@@ -70,15 +93,38 @@ export const ThumbnailShowcasePage: React.FC = () => {
             tiltIntensity={3}
           >
             <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-              <div className="space-y-4 max-w-2xl">
+              <div className="space-y-4 flex-1 min-w-0">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-200/60 text-blue-600 text-[11px] font-bold tracking-wide uppercase">
                   <Sparkles size={13} className="text-blue-500 animate-spin-slow" />
                   Visual Hook Architecture
                 </div>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-zinc-900 leading-[1.05]">
-                  THUMBNAIL <span className="text-blue-600">SHOWCASE.</span>
+
+                {/* Two-Line CTR Heading with 4-Second Smooth Vertical Infinite Morph Loop */}
+                <h1 className="text-3xl min-[420px]:text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[1.08] flex flex-col">
+                  <span className="text-[#1d1d1f] uppercase select-none">
+                    THUMBNAILS
+                  </span>
+                  <span className="relative h-[1.18em] w-full overflow-hidden block select-none">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      <motion.span
+                        key={phraseIndex}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 120,
+                          damping: 20,
+                        }}
+                        className="absolute inset-0 flex items-center text-[#0055ff] uppercase truncate will-change-transform will-change-opacity transform-gpu"
+                      >
+                        {ROTATING_PHRASES[phraseIndex]}
+                      </motion.span>
+                    </AnimatePresence>
+                  </span>
                 </h1>
-                <p className="text-zinc-600 text-sm sm:text-base font-medium leading-relaxed">
+
+                <p className="text-zinc-600 text-sm sm:text-base font-medium leading-relaxed max-w-2xl">
                   Every thumbnail here is an engineered psychological click-magnet. Tested across 500M+ views 
                   with top creators like Azul Welz, Hustle Ninjas, and Rob Lipsett. Click any card to inspect full details, 
                   CTR hooks, and AI concept breakdowns.
@@ -113,6 +159,22 @@ export const ThumbnailShowcasePage: React.FC = () => {
               </div>
             </div>
           </AppleGlassCard>
+        </div>
+
+        {/* Interactive Before/After CTR Comparison */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-[#0055ff] rounded-full" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-500 font-display">
+                Interactive Before & After CTR Split Test
+              </h3>
+            </div>
+            <span className="text-xs text-zinc-400 font-mono hidden sm:inline">
+              Drag handle to reveal psychological hook optimizations
+            </span>
+          </div>
+          <BeforeAfterThumbnailSlider />
         </div>
 
         {/* The Complete Interactive Thumbnail Gallery with Glassmorphism */}

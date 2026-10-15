@@ -18,6 +18,9 @@ import { PushPin } from './PushPin';
 import enablersAvatar from '../assets/images/regenerated_image_1791817292482.png';
 import russianRockAvatar from '../assets/images/regenerated_image_1791817294093.png';
 import rowRhythmAvatar from '../assets/images/regenerated_image_1791817303664.png';
+import serrahxAvatar from '../assets/images/regenerated_image_1791908842046.jpg';
+import mrJayPlayzAvatar from '../assets/images/regenerated_image_1791908843465.jpg';
+import haProdAvatar from '../assets/images/regenerated_image_1791958694279.png';
 
 export interface ClientReview {
   id: string | number;
@@ -26,7 +29,7 @@ export interface ClientReview {
   avatar: string;
   thumbnailUrl: string;
   thumbnailTitle: string;
-  category: 'Gaming' | 'Finance' | 'Fitness' | 'Tech' | 'Travel' | 'Entertainment' | 'Business';
+  category: 'Gaming' | 'Finance' | 'Fitness' | 'Tech' | 'Travel' | 'Entertainment' | 'Business' | 'Agency';
   text: string;
   result: string;
   views: string;
@@ -156,6 +159,57 @@ export const REVIEWS_DATA: ClientReview[] = [
     color: "text-zinc-600",
     text: "Zeeshan's designs perfectly capture the rhythm and modern tech edge of our content. He has redefined our channel's visual identity with clean polish.",
     featured: false
+  },
+  {
+    id: 8,
+    name: "serrahx",
+    handle: "420K subscribers",
+    avatar: serrahxAvatar,
+    thumbnailUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
+    thumbnailTitle: "How to Build a Second Brain in 2025",
+    category: "Tech",
+    result: "+17.6% CTR",
+    views: "1.5M Views",
+    ctr: "+17.6% CTR",
+    rating: 5,
+    pinColor: "#6366F1",
+    color: "text-indigo-600",
+    text: "Working with Zeeshan took our channel to an entirely new tier. The visual hierarchy, typography, and crisp lighting consistently lift our day-one CTR past 17%.",
+    featured: true
+  },
+  {
+    id: 9,
+    name: "mr jay playz",
+    handle: "840K subscribers",
+    avatar: mrJayPlayzAvatar,
+    thumbnailUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80",
+    thumbnailTitle: "I Survived 100 Days in Impossible Hardcore",
+    category: "Gaming",
+    result: "2.1M+ Reach",
+    views: "2.1M Views",
+    ctr: "+18.9% CTR",
+    rating: 5,
+    pinColor: "#0EA5E9",
+    color: "text-cyan-600",
+    text: "Zeeshan delivers pure scroll-stopping gold! In gaming where competition is cutthroat, his 3D lighting, expressions, and depth separation give us an instant 18%+ CTR edge.",
+    featured: true
+  },
+  {
+    id: 10,
+    name: "HA PROD",
+    handle: "Creative Production Agency",
+    avatar: haProdAvatar,
+    thumbnailUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+    thumbnailTitle: "Commercial Visual Campaign (10M+ Network)",
+    category: "Agency",
+    result: "10M+ Reach",
+    views: "10M+ Views",
+    ctr: "+19.4% CTR",
+    rating: 5,
+    pinColor: "#EC4899",
+    color: "text-pink-600",
+    text: "As a premier creative agency, we require studio-tier thumbnails with ruthless consistency. HA PROD trusts Zeeshan exclusively for our flagship creators—he never misses a beat.",
+    featured: true
   }
 ];
 
@@ -170,13 +224,13 @@ export const GlassmorphicReviewSection: React.FC<{ className?: string }> = ({ cl
     return REVIEWS_DATA.filter(review => {
       if (activeCategory === 'All Proofs') return true;
       if (activeCategory === 'High CTR (+15%+)') {
-        return review.ctr.includes('18') || review.ctr.includes('16') || review.ctr.includes('15');
+        return review.ctr.includes('18') || review.ctr.includes('16') || review.ctr.includes('15') || review.ctr.includes('17') || review.ctr.includes('19');
       }
       if (activeCategory === '1M+ Views Club') {
         return review.views.includes('M');
       }
       if (activeCategory === 'Finance & Tech') {
-        return review.category === 'Finance' || review.category === 'Tech';
+        return review.category === 'Finance' || review.category === 'Tech' || review.category === 'Business' || review.category === 'Agency';
       }
       if (activeCategory === 'Gaming & Fitness') {
         return review.category === 'Gaming' || review.category === 'Fitness' || review.category === 'Entertainment';

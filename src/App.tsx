@@ -61,6 +61,7 @@ import { WaterBackground } from './components/WaterBackground';
 import { FogEffect } from './components/FogEffect';
 import { PushPin } from './components/PushPin';
 import { AppleGlassCard } from './components/AppleGlassCard';
+import { ApplePricingSection } from './components/ApplePricingSection';
 import { GlassCard } from './components/GlassCard';
 import { AnimatedSection, AnimatedText, AnimatedGlassBlock } from './components/AnimatedSection';
 import { AppleHelloIntro } from './components/AppleHelloIntro';
@@ -71,6 +72,9 @@ import { GlassmorphicReviewSection } from './components/GlassmorphicReviewSectio
 import { TrustedCreatorsSection } from './components/TrustedCreatorsSection';
 import { SpectralGlassHover } from './components/SpectralGlassHover';
 import { GlassmorphicOnLoadPopup } from './components/GlassmorphicOnLoadPopup';
+import { ConversionStudioSection } from './components/ConversionStudioSection';
+import { BeforeAfterThumbnailSlider } from './components/BeforeAfterThumbnailSlider';
+import { CtrRevenueCalculator } from './components/CtrRevenueCalculator';
 import { useAdmin } from './hooks/useAdmin';
 import { Toaster, toast } from 'sonner';
 import { auth } from './firebase';
@@ -79,6 +83,10 @@ import zeeshanProfilePic from './assets/images/regenerated_image_1791712740532.j
 import enablersAvatar from './assets/images/regenerated_image_1791817292482.png';
 import russianRockAvatar from './assets/images/regenerated_image_1791817294093.png';
 import rowRhythmAvatar from './assets/images/regenerated_image_1791817303664.png';
+import serrahxAvatar from './assets/images/regenerated_image_1791908842046.jpg';
+import mrJayPlayzAvatar from './assets/images/regenerated_image_1791908843465.jpg';
+import haProdClientAvatar from './assets/images/regenerated_image_1791958692290.png';
+import haProdReviewAvatar from './assets/images/regenerated_image_1791958694279.png';
 
 // --- Typewriter Text Component ---
 const TypewriterText = ({ text, speed = 20 }: { text: string; speed?: number }) => {
@@ -688,6 +696,9 @@ const REVIEWS: Review[] = [
   { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700", text: "Zeeshan's ability to simplify complex concepts into a single visual hook is incredible. He's our go-to for high-impact thumbnails.", result: "592K+ Impact" },
   { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600", text: "The energy and visual storytelling Z Score brings to our rock content is phenomenal. Truly a master of the craft.", result: "690K+ Reach" },
   { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600", text: "Zeeshan's designs perfectly capture the rhythm of our content. A true creative partner!", result: "35K+ Subs" },
+  { id: 8, name: "serrahx", handle: "420K subscribers", image: serrahxAvatar, color: "text-indigo-600", text: "Working with Zeeshan took our channel to an entirely new tier. The visual hierarchy consistently lifts our day-one CTR past 17%.", result: "+17.6% CTR" },
+  { id: 9, name: "mr jay playz", handle: "840K subscribers", image: mrJayPlayzAvatar, color: "text-cyan-600", text: "Zeeshan delivers pure scroll-stopping gold! In gaming where competition is cutthroat, his 3D lighting and depth separation give us an instant 18%+ CTR edge.", result: "+18.9% CTR" },
+  { id: 10, name: "HA PROD", handle: "Creative Agency", image: haProdReviewAvatar, color: "text-pink-600", text: "HA PROD trusts Zeeshan exclusively for our top tier creator rosters—high-volume thumbnails executed at pristine agency standards.", result: "10M+ Network" },
 ];
 
 const CLIENTS: Client[] = [
@@ -698,6 +709,9 @@ const CLIENTS: Client[] = [
   { id: 5, name: "Enablers", handle: "592K subscribers", image: enablersAvatar, color: "text-blue-700" },
   { id: 6, name: "Russian Rock", handle: "690K subscribers", image: russianRockAvatar, color: "text-red-600" },
   { id: 7, name: "Row Rhythm", handle: "35K subscribers", image: rowRhythmAvatar, color: "text-zinc-600" },
+  { id: 8, name: "serrahx", handle: "420K subscribers", image: serrahxAvatar, color: "text-indigo-600" },
+  { id: 9, name: "mr jay playz", handle: "840K subscribers", image: mrJayPlayzAvatar, color: "text-cyan-600" },
+  { id: 10, name: "HA PROD", handle: "Creative Agency", image: haProdClientAvatar, color: "text-pink-600" },
 ];
 
 const PRICING: PricingPlan[] = [
@@ -1281,7 +1295,7 @@ const About = () => (
             to="/about"
             className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-black border border-black/20 font-bold rounded-full hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all group"
           >
-            Read Full Story
+            View Full Story
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
@@ -1554,163 +1568,10 @@ const Reviews = () => <GlassmorphicReviewSection />;
 
 const TrustedClients = () => <TrustedCreatorsSection clients={CLIENTS} />;
 
+const ConversionStudio = () => <ConversionStudioSection />;
+
 const Pricing = () => {
-  const [billingCycle, setBillingCycle] = useState<'per-project' | 'monthly'>('per-project');
-
-  return (
-    <AnimatedSection id="pricing" className="section-padding bg-black/[0.01] relative overflow-hidden py-32 border-y border-black/5">
-      {/* Dynamic Ambient Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[500px] bg-gradient-to-tr from-blue-500/10 via-purple-500/10 to-transparent blur-[140px] pointer-events-none rounded-full" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Section Header with Staggered AnimatedText */}
-        <div className="text-center mb-16 space-y-4">
-          <AnimatedText as="h3" className="text-neon-purple font-bold uppercase tracking-[0.25em] text-xs">
-            Investment & Packages
-          </AnimatedText>
-          <AnimatedText as="h2" className="text-5xl md:text-7xl font-display font-bold tracking-tighter text-[#1d1d1f]">
-            Engineered For <span className="text-gradient">Viral Growth.</span>
-          </AnimatedText>
-          <AnimatedText as="p" className="text-zinc-500 max-w-lg mx-auto text-base font-normal leading-relaxed">
-            Transparent, performance-driven investment for creators who demand algorithm dominance and maximum CTR.
-          </AnimatedText>
-
-          {/* Apple-grade Interactive State Toggle: Per Project vs Monthly Retainer */}
-          <div className="pt-6 flex justify-center">
-            <div 
-              data-cursor="interactive"
-              className="inline-flex p-1.5 rounded-full backdrop-blur-xl bg-white/75 border border-white/80 dark:bg-black/20 dark:border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.06)] relative"
-            >
-              <button
-                onClick={() => setBillingCycle('per-project')}
-                className={`relative px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-300 z-10 ${
-                  billingCycle === 'per-project' ? 'text-[#1d1d1f]' : 'text-zinc-500 hover:text-zinc-800'
-                }`}
-              >
-                {billingCycle === 'per-project' && (
-                  <motion.div
-                    layoutId="pricing-pill-indicator"
-                    transition={{ type: 'spring', stiffness: 120, damping: 25, mass: 0.5 }}
-                    className="absolute inset-0 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.9)] rounded-full -z-10"
-                  />
-                )}
-                Per Project
-              </button>
-
-              <button
-                onClick={() => setBillingCycle('monthly')}
-                className={`relative px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors duration-300 z-10 flex items-center gap-2 ${
-                  billingCycle === 'monthly' ? 'text-[#1d1d1f]' : 'text-zinc-500 hover:text-zinc-800'
-                }`}
-              >
-                {billingCycle === 'monthly' && (
-                  <motion.div
-                    layoutId="pricing-pill-indicator"
-                    transition={{ type: 'spring', stiffness: 120, damping: 25, mass: 0.5 }}
-                    className="absolute inset-0 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.9)] rounded-full -z-10"
-                  />
-                )}
-                <span>Monthly Retainer</span>
-                <span className="px-2 py-0.5 text-[9px] font-bold rounded-full bg-emerald-500/15 text-emerald-600 border border-emerald-500/20">
-                  SAVE 20%
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Pricing Cards Grid with Unified GlassCard & 3D Tilt */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch">
-          {PRICING.map((plan) => {
-            const isRecommended = plan.recommended;
-            const currentPrice = billingCycle === 'per-project' ? plan.price : plan.monthlyPrice;
-            const billingPeriod = billingCycle === 'per-project' ? (plan.name === 'Starter' ? '/thumbnail' : '/pack') : '/month';
-
-            return (
-              <GlassCard
-                key={plan.name}
-                variant={isRecommended ? 'glow-blue' : 'light'}
-                liftOnHover={-10}
-                scaleOnHover={1.03}
-                tiltIntensity={6}
-                glareIntensity={0.5}
-                cursorBadge="PRICING"
-                className={`p-8 sm:p-10 flex flex-col justify-between relative group ${
-                  isRecommended ? 'ring-2 ring-blue-500/40' : ''
-                }`}
-              >
-                <div>
-                  {/* Top Badge */}
-                  <div className="flex items-center justify-between gap-2 mb-6">
-                    <span className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[11px]">
-                      {plan.name}
-                    </span>
-                    {plan.popularTag && (
-                      <span className="px-3 py-1 rounded-full text-[9px] font-black tracking-wider uppercase bg-blue-600 text-white shadow-sm shadow-blue-500/20">
-                        {plan.popularTag}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Price display with smooth spring motion */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-1.5">
-                      <motion.span 
-                        key={currentPrice}
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ type: 'spring', stiffness: 120, damping: 25, mass: 0.5 }}
-                        className="text-5xl sm:text-6xl font-display font-black tracking-tight text-[#1d1d1f]"
-                      >
-                        {currentPrice}
-                      </motion.span>
-                      <span className="text-zinc-500 text-sm font-semibold">{billingPeriod}</span>
-                    </div>
-                    <p className="text-xs text-zinc-500 mt-2 font-normal leading-relaxed">
-                      {plan.perks}
-                    </p>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="w-full h-px bg-black/[0.06] dark:bg-white/[0.08] my-6" />
-
-                  {/* Features list */}
-                  <div className="space-y-4 mb-8">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-                      Included Capabilities:
-                    </p>
-                    {plan.features.map((feature, j) => (
-                      <div key={j} className="flex items-start gap-3 text-sm text-zinc-700 font-medium">
-                        <CheckCircle2 size={16} className={`mt-0.5 shrink-0 ${isRecommended ? 'text-blue-600' : 'text-zinc-900'}`} />
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Magnetic CTA Button */}
-                <div className="pt-4">
-                  <a
-                    href={`https://wa.me/923035408206?text=Hi%20Zeeshan,%20I'm%20interested%20in%20the%20${plan.name}%20(${currentPrice}%20${billingPeriod})%20package`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-cursor="interactive"
-                    className={`w-full py-4 rounded-2xl font-bold uppercase tracking-widest text-[11px] transition-all duration-300 text-center block shadow-sm ${
-                      isRecommended
-                        ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20 hover:shadow-blue-500/30'
-                        : 'bg-zinc-900 text-white hover:bg-black hover:shadow-md'
-                    }`}
-                  >
-                    Select {plan.name}
-                  </a>
-                </div>
-              </GlassCard>
-            );
-          })}
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+  return <ApplePricingSection />;
 };
 
 const Contact = () => {
@@ -2222,11 +2083,12 @@ export default function App() {
                   <>
                     <Hero isLoaded={!isLoading} />
                     <About />
+                    <TrustedClients />
                     <WhyMe />
                     <Journey />
                     <Process />
                     <Reviews />
-                    <TrustedClients />
+                    <ConversionStudio />
                     <CommentsSection />
                     <FAQ />
                     <Pricing />
