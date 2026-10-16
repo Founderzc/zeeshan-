@@ -30,7 +30,7 @@ export const ConversionStudioSection: React.FC = () => {
         </h2>
 
         <p className="text-base sm:text-lg text-zinc-500 font-light max-w-2xl mx-auto leading-relaxed">
-          Drag the metallic wire to inspect real before-and-after psychological optimization, then simulate your channel's direct revenue upside with our live mathematical model.
+          Glide the Dynamic Island Lens portal or trigger the 3D card flip to inspect real psychological visual engineering, then simulate your channel's direct revenue upside with our live mathematical model.
         </p>
 
         {/* Apple Segmented View Toggle */}
@@ -38,7 +38,7 @@ export const ConversionStudioSection: React.FC = () => {
           <div className="inline-flex p-1 rounded-2xl bg-zinc-200/60 dark:bg-zinc-800/60 backdrop-blur-md border border-black/5 dark:border-white/10">
             {[
               { id: 'both', label: 'Complete Studio' },
-              { id: 'slider', label: '1. Before/After Slider' },
+              { id: 'slider', label: '1. Dynamic Island Lens' },
               { id: 'calculator', label: '2. Revenue Multiplier' },
             ].map(tab => {
               const isSelected = activeTab === tab.id;
@@ -85,11 +85,11 @@ export const ConversionStudioSection: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-4 bg-[#0055ff] rounded-full" />
                   <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-500 font-display">
-                    Interactive Before/After CTR Comparison Wire
+                    Futuristic Dynamic Island Lens & 3D Card Flip Portal
                   </h3>
                 </div>
                 <span className="text-xs text-zinc-400 font-mono hidden sm:inline">
-                  Drag horizontal handle or click anywhere to split
+                  Move cursor to inspect with magnetic circular lens or tap 3D Flip
                 </span>
               </div>
 

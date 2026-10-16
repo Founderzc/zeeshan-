@@ -333,26 +333,27 @@ export const TrustedCreatorsSection: React.FC<TrustedCreatorsSectionProps> = ({
                     {/* 1. EXACT DEAD-CENTER BRAND LOGO SLOT                    */}
                     {/* ======================================================= */}
                     {isCenterBrand ? (
-                      <div className="relative w-full h-full rounded-[26px] sm:rounded-[32px] p-2.5 sm:p-3.5 bg-gradient-to-b from-white/90 via-white/70 to-white/40 dark:from-zinc-900/90 dark:via-zinc-900/70 dark:to-zinc-950/90 border-2 border-blue-500/40 shadow-[0_12px_36px_rgba(0,85,255,0.25),inset_0_1px_2px_rgba(255,255,255,0.9)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden z-20">
+                      <div className="relative w-full h-full rounded-[26px] sm:rounded-[32px] p-2.5 sm:p-3.5 bg-gradient-to-b from-white/95 via-white/85 to-white/70 dark:from-zinc-900/95 dark:via-zinc-900/80 dark:to-zinc-950/90 border-2 border-blue-500/50 shadow-[0_12px_40px_rgba(0,85,255,0.3),inset_0_1px_2px_rgba(255,255,255,0.95)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden z-20 group-hover:border-blue-500 transition-all duration-300">
                         {/* Glowing radial halo behind logo */}
-                        <div className="absolute inset-0 bg-radial-gradient from-blue-500/20 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 bg-radial-gradient from-blue-500/25 via-blue-500/5 to-transparent pointer-events-none" />
 
-                        {/* Z Score Uploaded Brand Logo */}
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-black dark:bg-white p-1.5 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
+                        {/* Z Score Uploaded Brand Logo Container */}
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/15 p-2 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300 relative">
                           <img
                             src={brandLogoUrl}
                             alt="Z Score Agency Logo"
-                            className="w-full h-full object-contain filter invert dark:invert-0"
+                            className="w-full h-full object-contain brightness-0 dark:brightness-0 dark:invert"
+                            referrerPolicy="no-referrer"
                             loading="eager"
                           />
                         </div>
 
                         {/* Center Badge Label */}
-                        <div className="mt-1 sm:mt-1.5">
-                          <span className="block text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-zinc-950 dark:text-white font-display">
+                        <div className="mt-1.5">
+                          <span className="block text-[11px] sm:text-xs font-black uppercase tracking-wider text-zinc-950 dark:text-white font-display">
                             Z SCORE
                           </span>
-                          <span className="block text-[8px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                          <span className="block text-[8px] sm:text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
                             AGENCY HQ
                           </span>
                         </div>
