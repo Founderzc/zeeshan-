@@ -358,7 +358,7 @@ export const GlassmorphicOnLoadPopup: React.FC<GlassmorphicOnLoadPopupProps> = (
                 {/* Crisp Small Brand Logo (18px - 20px) */}
                 <div className="w-[19px] h-[19px] rounded-md bg-zinc-900 dark:bg-zinc-100 p-0.5 flex items-center justify-center shrink-0 shadow-xs">
                   <img 
-                    src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" 
+                    src="https://i.ibb.co/HpDY2hQY/dfef.png" 
                     alt="Z-Score Logo" 
                     className="w-full h-full object-contain invert dark:invert-0" 
                     referrerPolicy="no-referrer" 

@@ -27,7 +27,7 @@ export interface CreatorGridSlot {
 }
 
 // Brand Logo constant - dead center slot
-export const Z_SCORE_BRAND_LOGO = "https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png";
+export const Z_SCORE_BRAND_LOGO = "https://i.ibb.co/HpDY2hQY/dfef.png";
 
 // EXTERNALIZED, FULLY EDITABLE DATA MATRIX
 // Arranged in 3 rows of 5 columns (15 slots total) with dead-center Brand slot at Row 2, Column 3 (index 7).
@@ -342,7 +342,7 @@ export const TrustedCreatorsSection: React.FC<TrustedCreatorsSectionProps> = ({
                           <img
                             src={brandLogoUrl}
                             alt="Z Score Agency Logo"
-                            className="w-full h-full object-contain brightness-0 dark:brightness-0 dark:invert"
+                            className="w-full h-full object-contain"
                             referrerPolicy="no-referrer"
                             loading="eager"
                           />

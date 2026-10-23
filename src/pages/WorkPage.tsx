@@ -897,7 +897,7 @@ const WorkPage = () => {
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Visual/Graphic Designer</span>
           <SpectralGlassHover rounded="rounded-xl" className="px-2 py-1 bg-white/40" blurAmount={18} auraScale={1.12} tiltIntensity={4}>
-            <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-6 w-auto brightness-0" referrerPolicy="no-referrer" />
+            <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Z Score Logo" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
           </SpectralGlassHover>
         </div>
       </nav>

@@ -71,10 +71,6 @@ import { GlassmorphicProcessSection } from './components/GlassmorphicProcessSect
 import { GlassmorphicReviewSection } from './components/GlassmorphicReviewSection';
 import { TrustedCreatorsSection } from './components/TrustedCreatorsSection';
 import { SpectralGlassHover } from './components/SpectralGlassHover';
-import { GlassmorphicOnLoadPopup } from './components/GlassmorphicOnLoadPopup';
-import { ConversionStudioSection } from './components/ConversionStudioSection';
-import { BeforeAfterThumbnailSlider } from './components/BeforeAfterThumbnailSlider';
-import { CtrRevenueCalculator } from './components/CtrRevenueCalculator';
 import { useAdmin } from './hooks/useAdmin';
 import { Toaster, toast } from 'sonner';
 import { auth } from './firebase';
@@ -87,6 +83,8 @@ import serrahxAvatar from './assets/images/regenerated_image_1791908842046.jpg';
 import mrJayPlayzAvatar from './assets/images/regenerated_image_1791908843465.jpg';
 import haProdClientAvatar from './assets/images/regenerated_image_1791958692290.png';
 import haProdReviewAvatar from './assets/images/regenerated_image_1791958694279.png';
+import behanceAvatar from './assets/images/regenerated_image_1792781378749.png';
+import xAvatar from './assets/images/regenerated_image_1792781381244.png';
 
 // --- Typewriter Text Component ---
 const TypewriterText = ({ text, speed = 20 }: { text: string; speed?: number }) => {
@@ -461,9 +459,9 @@ const AIChat = () => {
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden border border-black/5">
                   <img 
-                    src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" 
+                    src="https://i.ibb.co/HpDY2hQY/dfef.png" 
                     alt="Z Score Logo" 
-                    className="w-full h-full object-contain brightness-0" 
+                    className="w-full h-full object-contain" 
                     referrerPolicy="no-referrer" 
                   />
                 </div>
@@ -870,7 +868,7 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
           auraScale={1.12}
           tiltIntensity={5}
         >
-          <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-7 w-auto group-hover:scale-105 transition-transform duration-300 brightness-0" referrerPolicy="no-referrer" />
+          <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Z Score Logo" className="h-8 w-auto group-hover:scale-105 transition-transform duration-300 object-contain" referrerPolicy="no-referrer" />
         </SpectralGlassHover>
       </Link>
       
@@ -1035,7 +1033,7 @@ const Navbar = ({ activeSection }: { activeSection: SectionId }) => {
   );
 };
 
-const Hero = ({ isLoaded }: { isLoaded: boolean }) => {
+const Hero = ({ isLoaded, onReplayIntro }: { isLoaded: boolean; onReplayIntro?: () => void }) => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
@@ -1104,13 +1102,34 @@ const Hero = ({ isLoaded }: { isLoaded: boolean }) => {
         animate={isLoaded ? "visible" : "hidden"}
         className="text-center z-10"
       >
-        <motion.div
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-neon-blue text-xs font-bold uppercase tracking-widest mb-8 border border-neon-blue/20"
-        >
-          <Sparkles size={14} className="glow-blue" />
-          Premium Thumbnail Expert
-        </motion.div>
+        <div className="flex flex-col items-center justify-center mb-8">
+          {/* Apple Hello Intro Script Ribbon */}
+          <motion.button
+            type="button"
+            onClick={onReplayIntro}
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative inline-flex items-center gap-3 px-5 py-2 rounded-full backdrop-blur-xl bg-white/70 hover:bg-white border border-black/10 shadow-sm transition-all mb-4 text-zinc-800 cursor-pointer"
+            title="Replay cinematic Apple Hello intro animation"
+          >
+            <span className="font-['Caveat',cursive] text-2xl sm:text-3xl font-bold text-blue-600 leading-none -rotate-2 inline-block drop-shadow-sm group-hover:scale-105 transition-transform">
+              hello, creator.
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 group-hover:text-blue-600 flex items-center gap-1.5 border-l border-black/10 pl-3">
+              <Sparkles size={12} className="text-blue-500 animate-spin-slow" />
+              Intro
+            </span>
+          </motion.button>
+
+          <motion.div
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-neon-blue text-xs font-bold uppercase tracking-widest border border-neon-blue/20"
+          >
+            <Sparkles size={14} className="glow-blue" />
+            Premium Thumbnail Expert
+          </motion.div>
+        </div>
         
         <motion.h1 
           variants={titleRevealVariants}
@@ -1568,8 +1587,6 @@ const Reviews = () => <GlassmorphicReviewSection />;
 
 const TrustedClients = () => <TrustedCreatorsSection clients={CLIENTS} />;
 
-const ConversionStudio = () => <ConversionStudioSection />;
-
 const Pricing = () => {
   return <ApplePricingSection />;
 };
@@ -1765,8 +1782,8 @@ const SocialLive = () => {
           className="rounded-[2.5rem] p-8 flex flex-col items-center text-center space-y-8"
         >
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-white p-[3px] shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
-              <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="w-16 h-auto brightness-0" />
+            <div className="w-24 h-24 rounded-full bg-white p-3 shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
+              <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Logo" className="w-16 h-auto object-contain" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1.5 shadow-lg border border-black/5">
               <Instagram size={16} className="text-purple-600" />
@@ -1813,8 +1830,8 @@ const SocialLive = () => {
           className="rounded-[2.5rem] p-8 flex flex-col items-center text-center space-y-8"
         >
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-white p-[3px] shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
-              <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="w-16 h-auto brightness-0" />
+            <div className="w-24 h-24 rounded-full bg-white p-3 shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
+              <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Logo" className="w-16 h-auto object-contain" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1.5 shadow-lg border border-black/5">
               <Video size={16} className="text-black" />
@@ -1862,7 +1879,7 @@ const SocialLive = () => {
         >
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-white p-[3px] shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
-              <img src="https://i.ibb.co/qXFY4XD/dposa-s.png" alt="Profile" className="w-full h-full object-cover" />
+              <img src={behanceAvatar} alt="Profile" className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1.5 shadow-lg border border-black/5">
               <Palette size={16} className="text-blue-600" />
@@ -1910,7 +1927,7 @@ const SocialLive = () => {
         >
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-white p-[3px] shadow-inner border border-black/5 flex items-center justify-center overflow-hidden">
-              <img src="https://i.ibb.co/qXFY4XD/dposa-s.png" alt="Profile" className="w-full h-full object-cover" />
+              <img src={xAvatar} alt="Profile" className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1.5 shadow-lg border border-black/5">
               <Twitter size={16} className="text-black" />
@@ -1956,7 +1973,7 @@ const Footer = () => (
   <footer className="py-12 px-6 border-t border-black/5">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
       <div className="flex items-center gap-2">
-        <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Z Score Logo" className="h-8 w-auto brightness-0" referrerPolicy="no-referrer" />
+        <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Z Score Logo" className="h-9 w-auto object-contain" referrerPolicy="no-referrer" />
       </div>
       
       <p className="text-zinc-500 text-xs uppercase tracking-widest">
@@ -2000,7 +2017,13 @@ const LoadingScreen = ({ onComplete }: { onComplete?: () => void }) => {
 export default function App() {
   const [activeSection, setActiveSection] = useState<SectionId>('home');
   const [isLoading, setIsLoading] = useState(true);
+  const [introKey, setIntroKey] = useState(1);
   const [initialProgress, setInitialProgress] = useState(0);
+
+  const handleReplayIntro = () => {
+    setIntroKey(prev => prev + 1);
+    setIsLoading(true);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -2058,17 +2081,13 @@ export default function App() {
         <meta name="twitter:description" content="High-performance thumbnail designs and psychological visual hooks for top creators." />
       </Helmet>
       <AnimatePresence mode="wait">
-        {isLoading && <LoadingScreen key="loader" onComplete={() => setIsLoading(false)} />}
+        {isLoading && <LoadingScreen key={`loader-${introKey}`} onComplete={() => setIsLoading(false)} />}
       </AnimatePresence>
 
       <WaterBackground />
         <div className="bg-white/0 min-h-screen selection:bg-neon-blue/20 selection:text-black scroll-smooth relative">
           <AIChat />
           <InteractiveGlassCursor />
-          {/* Desktop-only Notification Popup (Disabled on mobile) */}
-          <div className="hidden md:block">
-            <GlassmorphicOnLoadPopup />
-          </div>
           
           {/* Global Background Elements */}
           <div className="fixed inset-0 grid-bg opacity-10 pointer-events-none" />
@@ -2081,14 +2100,13 @@ export default function App() {
               <Routes>
                 <Route path="/" element={
                   <>
-                    <Hero isLoaded={!isLoading} />
+                    <Hero isLoaded={!isLoading} onReplayIntro={handleReplayIntro} />
                     <About />
                     <TrustedClients />
                     <WhyMe />
                     <Journey />
                     <Process />
                     <Reviews />
-                    <ConversionStudio />
                     <CommentsSection />
                     <FAQ />
                     <Pricing />

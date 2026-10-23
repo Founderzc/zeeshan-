@@ -16,7 +16,6 @@ import {
 } from 'lucide-react';
 import { ThumbnailGallery } from '../components/ThumbnailGallery';
 import { AppleGlassCard } from '../components/AppleGlassCard';
-import { BeforeAfterThumbnailSlider } from '../components/BeforeAfterThumbnailSlider';
 
 const ROTATING_PHRASES = [
   "SHOWCASE.",
@@ -159,22 +158,6 @@ export const ThumbnailShowcasePage: React.FC = () => {
               </div>
             </div>
           </AppleGlassCard>
-        </div>
-
-        {/* Interactive Before/After CTR Comparison */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-4 bg-[#0055ff] rounded-full" />
-              <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-500 font-display">
-                Interactive Before & After CTR Split Test
-              </h3>
-            </div>
-            <span className="text-xs text-zinc-400 font-mono hidden sm:inline">
-              Drag handle to reveal psychological hook optimizations
-            </span>
-          </div>
-          <BeforeAfterThumbnailSlider />
         </div>
 
         {/* The Complete Interactive Thumbnail Gallery with Glassmorphism */}

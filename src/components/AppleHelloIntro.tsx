@@ -134,9 +134,9 @@ export const AppleHelloIntro: React.FC<AppleHelloIntroProps> = ({ onComplete }) 
         >
           <div className="relative p-2">
             <img 
-              src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" 
+              src="https://i.ibb.co/HpDY2hQY/dfef.png" 
               alt="Z Score Logo" 
-              className="h-10 sm:h-12 md:h-14 w-auto brightness-0 transition-transform duration-500" 
+              className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform duration-500" 
               referrerPolicy="no-referrer" 
             />
           </div>

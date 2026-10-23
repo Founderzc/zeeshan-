@@ -309,7 +309,7 @@ const AboutPage = () => {
         </Link>
         <div className="flex items-center gap-8">
           <SpectralGlassHover rounded="rounded-xl" className="px-2.5 py-1 bg-white/40" blurAmount={18} auraScale={1.12} tiltIntensity={4}>
-            <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="h-7 w-auto brightness-0 opacity-80" />
+            <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Logo" className="h-8 w-auto object-contain" referrerPolicy="no-referrer" />
           </SpectralGlassHover>
         </div>
       </nav>
@@ -813,7 +813,7 @@ const AboutPage = () => {
       <footer className="py-20 px-6 border-t border-zinc-100">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-[0.4em] opacity-40">
           <div className="flex items-center gap-4">
-            <img src="https://i.ibb.co/QjQxzsHp/Z-SCORE-LOGO.png" alt="Logo" className="h-6 w-auto grayscale brightness-0" />
+            <img src="https://i.ibb.co/HpDY2hQY/dfef.png" alt="Logo" className="h-7 w-auto object-contain" referrerPolicy="no-referrer" />
             <span>© 2026–2027 Z-Score Agency</span>
           </div>
           <div className="flex gap-12">
